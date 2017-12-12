@@ -10,14 +10,14 @@ class TownHall{
   }
 
   inNextWeek(lastEmailed){
-    var townhall = this;
-    var lastweekly = moment(lastEmailed.weekly).endOf('day');
-    var nextweekly = moment(lastweekly).add(7, 'days');
-    var nextThursday = moment(lastweekly).add(14, 'days');
-    var lastDaily = lastEmailed.daily;
-    var today = new Date().getDay();
-    var townhallDay = moment(townhall.dateObj);
-    var include = townhall.include();
+    let townhall = this;
+    let lastweekly = moment(lastEmailed.weekly).endOf('day');
+    let nextweekly = moment(lastweekly).add(7, 'days');
+    let nextThursday = moment(lastweekly).add(14, 'days');
+    let lastDaily = lastEmailed.daily;
+    let today = new Date().getDay();
+    let townhallDay = moment(townhall.dateObj);
+    let include = townhall.include();
 
     if (townhall.dateObj) {
       if (townhall.dateObj < moment()) {
@@ -53,8 +53,8 @@ class TownHall{
   }
 
   include(){
-    var townhall = this;
-    var include;
+    let townhall = this;
+    let include;
     switch (townhall.meetingType) {
     case 'Town Hall':
       include = true;
@@ -82,13 +82,13 @@ class TownHall{
   }
 
   emailText (){
-    var date;
-    var location;
-    var time;
-    var notes;
-    var address;
-    var updated;
-    var title;
+    let date;
+    let location;
+    let time;
+    let notes;
+    let address;
+    let updated;
+    let title;
     if (this.repeatingEvent) {
       date = this.repeatingEvent;
     }  else if (this.dateString) {
@@ -137,7 +137,7 @@ class TownHall{
     } else {
       updated = '';
     }
-    var eventTemplate =
+    let eventTemplate =
       `<strong style="color:#0d4668">${this.Member} (${this.District}), <span style="color:#ff4741">${this.meetingType}</span></strong>
       <small><em>${updated}</em></small>
         <section style="margin-left:10px; margin-bottom: 20px; line-height: 20px">
@@ -155,7 +155,7 @@ class TownHall{
   }
 
   addToEventList(eventList, key){
-    var townhall = this;
+    let townhall = this;
     if (!eventList[key]) {
       eventList[key] = [];
     }
