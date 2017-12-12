@@ -1,13 +1,14 @@
-composeEmails = {};
+const sendEmail = require('../sendEmail');
+const composeEmails = {};
 
 composeEmails.composeErrorEmail = function(user, error) {
-  var data = {
+  const data = {
     from: 'Town Hall Updates <update@updates.townhallproject.com>',
-    to: 'meganrm@townhallproject.com',
+    to: process.env.ME,
     subject: `Error sending emails`,
-    html: `${user} ${error}`
+    html: `${user} ${error}`,
   };
-  User.sendEmail(user, data);
+  sendEmail.user(user, data);
 };
 
 module.exports = composeEmails;
