@@ -1,5 +1,7 @@
 const moment = require('moment');
 
+const constants = require('../email/constants');
+
 class TownHall{
   constructor(opts){
     for (let keys in opts) {
@@ -25,7 +27,7 @@ class TownHall{
         }
         return false;
       }
-      if (today !== 4){
+      if (today !== constants.BIG_DAY){
         // not in the next week
         if (townhallDay.isAfter(nextweekly)) {
           if (include) {
@@ -40,7 +42,7 @@ class TownHall{
         }
       }
       // if Thursday
-      if ((today === 4) && (townhallDay.isBetween(lastweekly, nextThursday, '(]'))) {
+      if ((today === constants.BIG_DAY) && (townhallDay.isBetween(lastweekly, nextThursday, '(]'))) {
         if (include) {
           TownHall.prints.isThursday.push(`<li>${townhall.Date}}</li>`);
         }
@@ -78,7 +80,6 @@ class TownHall{
     }
     return include;
   }
-
 
   emailText (){
     var date;
@@ -166,7 +167,6 @@ class TownHall{
 TownHall.townHallbyDistrict = {};
 TownHall.senateEvents = {};
 
-
 // admin.database.enableLogging(true);
 TownHall.prints = {
   inPast: [],
@@ -174,6 +174,5 @@ TownHall.prints = {
   isThursday: [],
   changedToday : [],
 };
-
 
 module.exports = TownHall;
