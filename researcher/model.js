@@ -1,4 +1,5 @@
 const sendEmail = require('../lib/sendEmail');
+const constants = require('../email/constants');
 
 class Researcher {
   constructor(opts) {
@@ -11,12 +12,12 @@ class Researcher {
     let researcher = this;
     let data = {
       from: 'Town Hall Updates <update@updates.townhallproject.com>',
-      to: `${researcher.username} <${researcher.email}>`,
-      bcc: 'meganrm@gmail.com',
+      to: constants.emailTo(researcher.username, researcher.email),
+      bcc: process.env.ME,
       subject: 'Reminder to submit events',
       html: html,
     };
-    data['h:Reply-To']='TownHall Project <info@townhallproject.com>, Emily Blumberg <emilysblumberg@gmail.com>';
+    data['h:Reply-To']=`TownHall Project <info@townhallproject.com>, ${process.env.EMILY}`;
     sendEmail.send(data);
   }
 }
