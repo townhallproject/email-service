@@ -29,12 +29,10 @@ PartnerEmail.prototype.composeEmail = function(district, events){
   events.forEach(function(townhall){
     if (!townhall.emailText()) {
       console.log(townhall);
-
     } else {
-      var townhallHtml = townhall.emailText();
+      let townhallHtml = townhall.emailText();
       htmltext = htmltext + townhallHtml;
     }
-
   });
   htmltext = htmltext + constants.LEGEND + constants.QUICK_NOTES;
   const today = new Date().getDay();
@@ -49,20 +47,20 @@ PartnerEmail.prototype.composeEmail = function(district, events){
 };
 
 PartnerEmail.eventReport = function(){
-  var html = '';
+  let html = '';
   for (const key of Object.keys(TownHall.prints)) {
     html = html + `<ul>${key}</ul>`;
     TownHall.prints[key].forEach(function(ele){
       html = html + ele;
     });
   }
-  var data = {
+  let data = {
     from: 'Town Hall Updates <update@updates.townhallproject.com>',
     to: process.env.ME,
     subject: 'Events checked',
     html: html,
   };
-  var partner;
+  let partner;
   PartnerEmail.sendEmail(partner, data);
 };
 
@@ -71,11 +69,11 @@ getLastSent().then(function(lastUpdated){
     console.log('got events');
     PartnerEmail.eventReport();
     for (const key of Object.keys(TownHall.townHallbyDistrict)) {
-      var thispartnerEmail = new PartnerEmail();
+      let thispartnerEmail = new PartnerEmail();
       thispartnerEmail.composeEmail(key, TownHall.townHallbyDistrict[key]);
     }
     for (const key of Object.keys(TownHall.senateEvents)) {
-      var newuser = new PartnerEmail();
+      let newuser = new PartnerEmail();
       newuser.composeEmail(key, TownHall.senateEvents[key]);
     }
   });

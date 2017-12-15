@@ -69,4 +69,16 @@ constants.emailTo = function (fullname, user) {
   return process.env.ME;
 };
 
+constants.compileMocReport = function (mocs){
+  let names = mocs.slice(0, -1).join(', ') + ' or ' +  mocs[mocs.length - 1];
+  let copy = `Hi!<br>
+  <p>We haven't received any event submissions (including "No New Events") for <span style="color:#ff4741">${names}</span> in a week. Remember, you are the only researcher assigned to these members of Congress, so if you aren't able to do the research these constituents could be missing vital opportunities to make their voices heard.</p>
+  <p>If you aren't able to continue volunteering with Town Hall Project, please respond to this email with "PLEASE REASSIGN" and we'll assign a new volunteer to these MoCs. No hard feelings!</p>
+  <p>If you are able to continue (and we hope you are!) please make sure to submit your research OR a "No New Event" submission for every MoC by end of day each Monday and Friday. As always, my research leads and I are always happy to answer questions about the process or provide best practices on event research.</p>
+  <p>Thank you for all you do!</p>
+  Best,<br>
+  Emily`;
+  return copy;
+};
+
 module.exports = constants;
