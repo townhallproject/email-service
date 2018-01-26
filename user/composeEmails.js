@@ -1,14 +1,14 @@
-const sendEmail = require('../sendEmail');
+const sendEmail = require('../lib/sendEmail');
 const composeEmails = {};
 
-composeEmails.composeErrorEmail = function(user, error) {
+composeEmails.errorEmail = function(message, error) {
   const data = {
     from: 'Town Hall Updates <update@updates.townhallproject.com>',
     to: process.env.ME,
     subject: `Error sending emails`,
-    html: `${user} ${error}`,
+    html: `${message} ${error}`,
   };
-  sendEmail.user(user, data);
+  sendEmail.user(message, data);
 };
 
 module.exports = composeEmails;

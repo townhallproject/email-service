@@ -2,14 +2,15 @@
 const User = require('./model');
 
 module.exports = function(peopleList) {
-  return new Promise(function(resolve, reject){
+  return new Promise(function(resolve){
     peopleList.forEach(function(ele, index){
       if (!ele.zip) {
         User.zipErrors.push(ele);
         if (index + 1 === peopleList.length) {
           resolve(true);
-        } else {
-          reject();
+        }
+        else {
+          return;
         }
       }
       ele.getDistricts(User.usersByDistrict, index).then(function(curIndex){

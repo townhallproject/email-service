@@ -1,15 +1,12 @@
 #!/usr/bin/env node
 require('dotenv').load();
 
-// settings for mailgun
-const mailgun_api_key = process.env.MAILGUN_API_KEY;
-const domain = 'updates.townhallproject.com';
-const mailgun = require('mailgun-js')({apiKey: mailgun_api_key, domain: domain});
-
 const TownHall = require('../townhall/model.js');
 const getTownHalls = require('../townhall/getTownHalls');
 const getLastSent = require('../townhall/getLastSent');
 const constants = require('../email/constants');
+
+const sendEmail = require('../lib/sendEmail');
 
 // unpacks data from action network
 function PartnerEmail(opts) {
@@ -17,14 +14,10 @@ function PartnerEmail(opts) {
     this[key] = opts[key];
   }
 }
-PartnerEmail.sendEmail = function(user, data){
-  mailgun.messages().send(data, function () {
-  });
-};
+
 // composes email using the list of events
 PartnerEmail.prototype.composeEmail = function(district, events){
   const username = '';
-  const partner = this;
   let htmltext = constants.intro(username);
   events.forEach(function(townhall){
     if (!townhall.emailText()) {
@@ -43,7 +36,7 @@ PartnerEmail.prototype.composeEmail = function(district, events){
     subject: constants.subjectLinePartner(today, district),
     html: htmltext,
   };
-  PartnerEmail.sendEmail(partner, data);
+  sendEmail.send(data);
 };
 
 PartnerEmail.eventReport = function(){
@@ -60,8 +53,7 @@ PartnerEmail.eventReport = function(){
     subject: 'Events checked',
     html: html,
   };
-  let partner;
-  PartnerEmail.sendEmail(partner, data);
+  sendEmail.send(data);
 };
 
 getLastSent().then(function(lastUpdated){

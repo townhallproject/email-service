@@ -11,8 +11,8 @@ class TownHall{
 
   inNextWeek(lastEmailed){
     let townhall = this;
-    let lastweekly = moment(lastEmailed.weekly).endOf('day');
-    let nextweekly = moment(lastweekly).add(7, 'days');
+    let lastweekly = moment().day(constants.BIG_DAY - 7).endOf('day');
+    let thisThursday = moment(lastweekly).add(7, 'days');
     let nextThursday = moment(lastweekly).add(14, 'days');
     let lastDaily = lastEmailed.daily;
     let today = new Date().getDay();
@@ -27,22 +27,22 @@ class TownHall{
         }
         return false;
       }
-      if (today !== constants.BIG_DAY){
+      if (today !== constants.BIG_DAY) {
         // not in the next week
-        if (townhallDay.isAfter(nextweekly)) {
+        if (townhallDay.isAfter(thisThursday)) {
           if (include) {
             TownHall.prints.notInNextWeek.push(`<li>${townhall.Date}</li>`);
           }
           return false;
         }
-        if (townhall.lastUpdated > lastDaily){
+        if (townhall.lastUpdated > lastDaily) {
           // if not Thursday, is the event new since last emailed?
           TownHall.prints.changedToday.push(`<li>${townhall.Date}, ${townhall.meetingType}, include? ${include}</li>`);
           return true;
         }
       }
       // if Thursday
-      if ((today === constants.BIG_DAY) && (townhallDay.isBetween(lastweekly, nextThursday, '(]'))) {
+      if ((today === constants.BIG_DAY) && (townhallDay.isBetween(moment().add(5, 'hours'), nextThursday, '(]'))) {
         if (include) {
           TownHall.prints.isThursday.push(`<li>${townhall.Date}}</li>`);
         }

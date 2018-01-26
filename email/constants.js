@@ -1,6 +1,6 @@
 const constants = {};
 
-constants.BIG_DAY = 4; //Thursday
+constants.BIG_DAY = 5; //Friday
 
 constants.intro = function(username){
   return `<body style="color:#1E2528; font-size:14px; line-height: 27px;">Hi ${username} - ` +

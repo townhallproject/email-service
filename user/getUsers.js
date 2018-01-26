@@ -2,8 +2,7 @@ const https = require('https');
 https.globalAgent.maxSockets = Infinity;
 
 const User = require('./model');
-
-const sendEmail = require('../lib/sendEmail');
+const composeEmails = require('./composeEmails');
 const makeListbyDistrict = require('./makeListbyDistrict');
 const getDataForUsers = require('./getDataForUsers');
 
@@ -46,6 +45,7 @@ const getAllUsers = function(page){
   var path = page ? basepath + page : basepath;
   // get 25 users, then add them to the object under their district
   getUsers(path).then(function(returnedData) {
+
     var people = returnedData['_embedded']['osdi:people'];
     var peopleList = [];
     for (const key of Object.keys(people)) {
@@ -60,7 +60,7 @@ const getAllUsers = function(page){
     }
     makeListbyDistrict(peopleList).then(function(){
       // if no more new pages, or we set a break point for testing
-      if (!returnedData['_links']['next']) {
+      if (returnedData && !returnedData['_links']['next']) {
         console.log('got all data');
         getDataForUsers();
       }  else {
@@ -70,11 +70,11 @@ const getAllUsers = function(page){
       }
     }).catch(function(error){
       console.error(error);
-      sendEmail.user('making people list ', error);
+      composeEmails.errorEmail('making people list ', error);
     });
   }).catch(function(error){
     console.error(error);
-    sendEmail.user('get users error', error);
+    composeEmails.errorEmail('get users error', error);
   });
 };
 
