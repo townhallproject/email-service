@@ -21,8 +21,6 @@ module.exports = function(lastUpdated){
         }
       }
     });
-    console.log(TownHall.townHallbyDistrict);
-    console.log(TownHall.senateEvents);
   }).catch(function (error) {
     Promise.reject(error);
   });
