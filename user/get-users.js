@@ -1,5 +1,4 @@
-const https = require('https');
-https.globalAgent.maxSockets = Infinity;
+const request = require('superagent');
 
 const User = require('./model');
 const composeEmails = require('./composeEmails');
@@ -8,35 +7,20 @@ const getDataForUsers = require('./get-data-for-users');
 
 // gets users 25 people at a time
 const getUsers = function(path) {
-  return new Promise(function (resolve, reject) {
-    var options = {
-      hostname: 'actionnetwork.org',
-      path: path,
-      method: 'GET',
-      headers: {
-        'OSDI-API-Token': process.env.ACTION_NETWORK_KEY,
-        'Content-Type': 'application/json' },
-    };
-    var str = '';
-    var req = https.request(options, (res) => {
-      res.setEncoding('utf8');
-      res.on('data', (chunk) => {
-        str += chunk;
-      });
-      res.on('end', () => {
-        var r = JSON.parse(str);
-        if (r) {
-          resolve(r);
-        } else {
-          reject('no users');
-        }
-      });
+  return request
+    .get(`https://actionnetwork.org/${path}`)
+    .set('OSDI-API-Token', process.env.ACTION_NETWORK_KEY)
+    .set('Content-Type', 'application/json')
+    .then((res) => {
+      let data;
+      try {
+        data = JSON.parse(res.text);
+        return (data);
+      } catch (e) {
+        console.log(e);
+        throw (e);
+      }
     });
-    req.on('error', (e) => {
-      console.error('error requests', e);
-    });
-    req.end();
-  });
 };
 
 const getAllUsers = function(page){
@@ -45,7 +29,6 @@ const getAllUsers = function(page){
   var path = page ? basepath + page : basepath;
   // get 25 users, then add them to the object under their district
   getUsers(path).then(function(returnedData) {
-
     var people = returnedData['_embedded']['osdi:people'];
     var peopleList = [];
     for (const key of Object.keys(people)) {
