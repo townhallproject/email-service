@@ -1,4 +1,4 @@
-const sendEmail = require('../lib/sendEmail');
+const sendEmail = require('../');
 const constants = require('../email/constants');
 
 class Researcher {

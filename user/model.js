@@ -2,7 +2,7 @@ const Distance = require('geo-distance');
 
 const firebasedb = require('../lib/setupFirebase');
 const TownHall = require('../townhall/model.js');
-const sendEmail = require('../lib/sendEmail');
+const sendEmail = require('../');
 const constants = require('../email/constants');
 
 String.prototype.toProperCase = function () {

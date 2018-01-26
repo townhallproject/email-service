@@ -3,8 +3,8 @@ https.globalAgent.maxSockets = Infinity;
 
 const User = require('./model');
 const composeEmails = require('./composeEmails');
-const makeListbyDistrict = require('./makeListbyDistrict');
-const getDataForUsers = require('./getDataForUsers');
+const makeListbyDistrict = require('./make-list-by-district');
+const getDataForUsers = require('./get-data-for-users');
 
 // gets users 25 people at a time
 const getUsers = function(path) {

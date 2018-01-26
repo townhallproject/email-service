@@ -1,6 +1,6 @@
 const User = require('./model');
 const TownHall = require('../townhall/model');
-const sendEmail = require('../lib/sendEmail');
+const sendEmail = require('../');
 
 module.exports = function(user) {
   let districtreport = 'Districts with events this week: ';

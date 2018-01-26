@@ -1,4 +1,4 @@
-const sendEmail = require('../lib/sendEmail');
+const sendEmail = require('../');
 const composeEmails = {};
 
 composeEmails.errorEmail = function(message, error) {

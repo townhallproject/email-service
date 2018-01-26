@@ -6,7 +6,7 @@ const getTownHalls = require('../townhall/getTownHalls');
 const getLastSent = require('../townhall/getLastSent');
 const constants = require('../email/constants');
 
-const sendEmail = require('../lib/sendEmail');
+const sendEmail = require('../');
 
 // unpacks data from action network
 function PartnerEmail(opts) {

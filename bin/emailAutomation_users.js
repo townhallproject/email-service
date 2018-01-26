@@ -3,7 +3,7 @@
 const User = require('../user/model');
 const getLastSent = require('../townhall/getLastSent');
 const getTownHalls = require('../townhall/getTownHalls');
-const getUsers = require('../user/getUsers');
+const getUsers = require('../user/get-users');
 
 console.log('NODE_ENV:', process.env.NODE_ENV);
 
