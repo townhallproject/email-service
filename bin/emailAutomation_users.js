@@ -5,10 +5,11 @@ const getLastSent = require('../townhall/getLastSent');
 const getTownHalls = require('../townhall/getTownHalls');
 const getUsers = require('../user/getUsers');
 
+console.log('NODE_ENV:', process.env.NODE_ENV);
+
 getLastSent().then(function(lastUpdated){
   getTownHalls(lastUpdated).then(function(){
     console.log('got events');
-
     // enter '?page=200' if you want to start at specific page
     getUsers();
   });
