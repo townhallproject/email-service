@@ -8,7 +8,6 @@ module.exports = function() {
   // starting with district events,find all users in district
   // for each user in the group, also get other district and senate events
   // once an email is sent, they'll be removed from the user object
-  console.log(TownHall.townHallbyDistrict, User.usersByDistrict);
   for (const key of Object.keys(TownHall.townHallbyDistrict)) {
     if (User.usersByDistrict[key]) {
       console.log('sending district emails', key, User.usersByDistrict[key].length);

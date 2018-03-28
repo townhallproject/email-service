@@ -130,7 +130,6 @@ class User {
       if (key !== 'districts' && user[key] !== duplicate[key]) {
         if (duplicate[key]) {
           user[key] = duplicate[key];
-          console.log('new item', user[key]);
         }
       }
     }
@@ -198,7 +197,6 @@ class User {
                   let district = ele.val()['abr'] + '-' + parseInt(ele.val()['dis']);
                   user.districts.push(district);
                 } else {
-                  console.log(ele.val());
                   if (User.zipsNotInDatabase.indexOf(zip) < 0) {
                     User.zipsNotInDatabase.push(zip);
                   }

@@ -13,10 +13,8 @@ module.exports = function(lastUpdated){
       ) {
         if (!townhall.district) {
           // get state two letter code
-          console.log('senate', townhall.state);
           townhall.addToEventList(TownHall.senateEvents, townhall.state);
         } else {
-          console.log('district', townhall.state + '-' + Number(townhall.district));
           townhall.addToEventList(TownHall.townHallbyDistrict, townhall.state + '-' + Number(townhall.district));
         }
       }
