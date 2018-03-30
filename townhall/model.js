@@ -89,6 +89,7 @@ class TownHall{
     let address;
     let updated;
     let title;
+    let repinfo = '';
     if (this.repeatingEvent) {
       date = this.repeatingEvent;
     }  else if (this.dateString) {
@@ -137,8 +138,13 @@ class TownHall{
     } else {
       updated = '';
     }
+    if (this.chamber === "upper"){
+      repinfo = "(Senate)";
+    } else if (this.district) {
+      repinfo = `(${this.state}-${this.district})`
+    }
     let eventTemplate =
-      `<strong style="color:#0d4668">${this.Member} (${this.District}), <span style="color:#ff4741">${this.meetingType}</span></strong>
+      `<strong style="color:#0d4668">${this.Member} ${repinfo}, <span style="color:#ff4741">${this.meetingType}</span></strong>
       <small><em>${updated}</em></small>
         <section style="margin-left:10px; margin-bottom: 20px; line-height: 20px">
         <ul>

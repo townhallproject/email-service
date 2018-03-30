@@ -60,7 +60,7 @@ constants.partnerEmailCC = function () {
   if (process.env.NODE_ENV === 'production') {
     return process.env.PARTNERS;
   }
-  return '';
+  return process.env.NATHAN;
 };
 
 constants.emailTo = function (fullname, user) {

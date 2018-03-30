@@ -11,11 +11,13 @@ module.exports = function(lastUpdated){
           townhall.include() &&
           townhall.state
       ) {
-        if (!townhall.district) {
+        if (!townhall.district && townhall.chamber === "upper") {
           // get state two letter code
           townhall.addToEventList(TownHall.senateEvents, townhall.state);
-        } else {
+        } else if (townhall.district){
           townhall.addToEventList(TownHall.townHallbyDistrict, townhall.state + '-' + Number(townhall.district));
+        } else {
+          console.log(townhall.eventId);
         }
       }
     });
