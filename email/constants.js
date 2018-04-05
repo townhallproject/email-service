@@ -81,8 +81,8 @@ constants.QUICK_NOTES_THFOL = `<p>Quick notes:</p>
   </footer>
   
   </body>`;
-  // <p style="text-align:center"><a href="https://secure.actblue.com/contribute/page/townhallprojectemail">Donate here</a></p>
-  //<p>(Paid for by Town Hall Project. All donations to THP are not tax-deductible but help us keep this vital resource sustainable in the months ahead.)</p>
+// <p style="text-align:center"><a href="https://secure.actblue.com/contribute/page/townhallprojectemail">Donate here</a></p>
+//<p>(Paid for by Town Hall Project. All donations to THP are not tax-deductible but help us keep this vital resource sustainable in the months ahead.)</p>
 
 
 constants.subjectLinePartner = function (today, district) {

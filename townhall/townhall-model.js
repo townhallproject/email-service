@@ -91,7 +91,7 @@ class TownHall{
     let time;
     let notes;
     let address;
-    let updated;
+    // let updated;
     let title;
     let repinfo = '';
     if (this.repeatingEvent) {
@@ -137,11 +137,11 @@ class TownHall{
     } else {
       address = '';
     }
-    if (this.updatedBy) {
-      updated = '*The details of this event were changed recently';
-    } else {
-      updated = '';
-    }
+    // if (this.updatedBy) {
+    //   updated = '*The details of this event were changed recently';
+    // } else {
+    //   updated = '';
+    // }
     if (this.chamber === 'upper'){
       repinfo = '(Senate)';
     } else if (this.district) {
