@@ -14,7 +14,6 @@ class Researcher {
       from: 'Town Hall Updates <update@updates.townhallproject.com>',
       to: constants.emailTo(researcher.username, researcher.email),
       cc: process.env.JENITA,
-      bcc: process.env.ME,
       subject: 'Reminder to submit events',
       html: html,
     };

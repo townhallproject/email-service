@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 require('dotenv').load();
-
-const TownHall = require('../townhall/model.js');
+const find = require('lodash').find;
+const TownHall = require('../townhall/townhall-model.js');
 const getTownHalls = require('../townhall/getTownHalls');
 const getLastSent = require('../townhall/getLastSent');
 const constants = require('../email/constants');
@@ -18,7 +18,9 @@ function PartnerEmail(opts) {
 // composes email using the list of events
 PartnerEmail.prototype.composeEmail = function(district, events){
   const username = '';
-  let htmltext = constants.intro(username);
+  let isTHFOL = find(events, {iconFlag: 'mfol'});
+  let htmltext = isTHFOL ? constants.introTHFOL(username) : constants.intro(username);
+  // let htmltext = constants.intro(username);
   events.forEach(function(townhall){
     if (!townhall.emailText()) {
       console.log(townhall);

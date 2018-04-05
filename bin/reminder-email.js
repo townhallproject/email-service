@@ -34,6 +34,8 @@ function loopThroughMocs(mocs){
           }).catch((error) => {
             reject(error);
           });
+        } else {
+          console.log('updated');
         }
       }
     });
@@ -46,9 +48,17 @@ firebasedb.ref('users/').once('value').then(function(snapshot){
     let mocs = newResearcher.mocs;
     if (mocs) {
       loopThroughMocs(mocs).then(function(report){
-        let html = constants.compileMocReport(report);
-        newResearcher.composeEmail(html);
-      });
+        if (report.length) {
+          console.log('behind on research:',newResearcher.username, report);
+          let html = constants.compileMocReport(report);
+          newResearcher.composeEmail(html);
+        } else {
+          console.log('all up to date:', newResearcher.username);
+        }
+      })
+        .catch(err => {
+          console.log(err);
+        });
     }
   });
 });

@@ -69,7 +69,7 @@ class TownHall{
       include = true;
       break;
     case 'Other':
-      if (townhall.iconFlag === 'in-person') {
+      if (townhall.iconFlag === 'in-person' || townhall.iconFlag === 'mfol') {
         include = true;
       } else {
         include = false;
@@ -138,14 +138,15 @@ class TownHall{
     } else {
       updated = '';
     }
-    if (this.chamber === "upper"){
-      repinfo = "(Senate)";
+    if (this.chamber === 'upper'){
+      repinfo = '(Senate)';
     } else if (this.district) {
-      repinfo = `(${this.state}-${this.district})`
+      repinfo = `(${this.state}-${this.district})`;
     }
+    // <small><em>${updated}</em></small>
     let eventTemplate =
-      `<strong style="color:#0d4668">${this.Member} ${repinfo}, <span style="color:#ff4741">${this.meetingType}</span></strong>
-      <small><em>${updated}</em></small>
+      `<div style="box-shadow:0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); padding:20px; margin-bottom:10px;">
+      <strong style="color:#0d4668">${this.Member} ${repinfo}, <span style="color:#ff4741">${this.meetingType}</span></strong>
         <section style="margin-left:10px; margin-bottom: 20px; line-height: 20px">
         <ul>
           ${title}
@@ -156,7 +157,8 @@ class TownHall{
           <li><a href="https://townhallproject.com/?eventId=${this.eventId}">Link on townhallproject site</a></br>
           <p>${notes}</p>
         </ul>
-        </section>`;
+        </section>
+        </div>`;
     return eventTemplate;
   }
 

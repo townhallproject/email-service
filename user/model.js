@@ -1,7 +1,7 @@
 const Distance = require('geo-distance');
-
+const find = require('lodash').find;
 const firebasedb = require('../lib/setupFirebase');
-const TownHall = require('../townhall/model.js');
+const TownHall = require('../townhall/townhall-model.js');
 const sendEmail = require('../lib/send-email');
 const constants = require('../email/constants');
 
@@ -70,8 +70,10 @@ class User {
       fullname = '';
     }
 
-    let htmltext = constants.intro(username);
+    let isTHFOL = find(allevents, {iconFlag : 'mfol'});
 
+    let htmltext = isTHFOL ? constants.introTHFOL(username): constants.intro(username);
+    
     allevents.forEach(function(townhall){
       var townhallHtml = townhall.emailText();
       htmltext = htmltext + townhallHtml;

@@ -1,4 +1,4 @@
-const TownHall = require('../townhall/model');
+const TownHall = require('../townhall/townhall-model');
 const User = require('./model');
 
 const composeSummary = require('./composeSummary');

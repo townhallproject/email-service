@@ -1,5 +1,5 @@
 const firebasedb = require('../lib/setupFirebase');
-const TownHall = require('./model');
+const TownHall = require('./townhall-model');
 
 module.exports = function(lastUpdated){
   return firebasedb.ref('townHalls').once('value').then(function (snapshot) {
@@ -11,7 +11,7 @@ module.exports = function(lastUpdated){
           townhall.include() &&
           townhall.state
       ) {
-        if (!townhall.district && townhall.chamber === "upper") {
+        if (!townhall.district && townhall.chamber === 'upper') {
           // get state two letter code
           townhall.addToEventList(TownHall.senateEvents, townhall.state);
         } else if (townhall.district){

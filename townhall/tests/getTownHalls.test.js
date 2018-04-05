@@ -1,6 +1,6 @@
 const moment = require('moment');
 
-const TownHall = require('../model');
+const TownHall = require('../townhall-model');
 const getTownHalls = require('../getTownHalls');
 
 describe('get town halls', () => {
