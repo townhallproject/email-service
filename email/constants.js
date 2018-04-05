@@ -75,8 +75,7 @@ constants.partnerEmailCC = function () {
   if (process.env.NODE_ENV === 'production') {
     return process.env.PARTNERS;
   }
-  return 'meganrm@gmail.com';
-  // return process.env.NATHAN;
+  return '';
 };
 
 constants.emailTo = function (fullname, user) {
