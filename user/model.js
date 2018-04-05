@@ -79,8 +79,7 @@ class User {
       htmltext = htmltext + townhallHtml;
     });
 
-    htmltext = htmltext + constants.LEGEND + constants.QUICK_NOTES;
-
+    htmltext = isTHFOL ? htmltext + constants.LEGEND + constants.QUICK_NOTES_THFOL: htmltext + constants.LEGEND + constants.QUICK_NOTES;
     let today = new Date().getDay();
 
     let data = {

@@ -62,21 +62,25 @@ class TownHall{
     case 'Empty Chair Town Hall':
       include = true;
       break;
-    case 'Tele-Town Hall':
-      include = true;
-      break;
-    case 'Adopt-A-District/State':
-      include = true;
-      break;
-    case 'Other':
-      if (townhall.iconFlag === 'in-person' || townhall.iconFlag === 'mfol') {
+    // case 'Tele-Town Hall':
+    //   include = true;
+    //   break;
+    // case 'Adopt-A-District/State':
+    //   include = true;
+    //   break;
+    // case 'Other':
+    //   if (townhall.iconFlag === 'in-person' || townhall.iconFlag === 'mfol') {
+    //     include = true;
+    //   } else {
+    //     include = false;
+    //   }
+    //   break;
+    default:
+      if (townhall.iconFlag === 'mfol'){
         include = true;
       } else {
         include = false;
       }
-      break;
-    default:
-      include = false;
     }
     return include;
   }

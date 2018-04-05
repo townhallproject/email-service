@@ -29,7 +29,7 @@ PartnerEmail.prototype.composeEmail = function(district, events){
       htmltext = htmltext + townhallHtml;
     }
   });
-  htmltext = htmltext + constants.LEGEND + constants.QUICK_NOTES;
+  htmltext = isTHFOL ? htmltext + constants.LEGEND + constants.QUICK_NOTES_THFOL : htmltext + constants.LEGEND + constants.QUICK_NOTES;
   const today = new Date().getDay();
   let data = {
     from: 'Town Hall Updates <update@updates.townhallproject.com>',

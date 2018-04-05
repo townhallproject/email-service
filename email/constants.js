@@ -13,7 +13,7 @@ constants.introTHFOL = function (username) {
     '<p>It looks like there\'s one or more events coming up near you and at least one is a <strong>Town Hall For Our Lives</strong>! We hope you can attend the event below and bring as many of your community members as possible to amplify your voice.</p>' +
     '<p>If you are attending a <strong>Town Hall For Our Lives</strong> event, here is some material from other organizations that could be used to help spur conversation on this issue. Please consider these suggestions--Town Hall Project encourages an open, honest discussion in which all viewpoints feel welcome expressing their views: </p>' +
     '<ul style="list-style:none">' + 
-    '<li><a href="https://marchforourlives.com/mission-statement/end.">March For Our Lives</a></li>' +
+    '<li><a href="https://marchforourlives.com/mission-statement/">March For Our Lives</a></li>' +
     '<li><a href="https://www.indivisible.org/resource/town-hall-lives-sample-questions/">Indivisible</a></li>' + 
     '<li><a href="https://www.ofa.us/get-trained/toolkits-resources/gvp-questions/">Organizing For Action</a></li>' +   
     '</ul>' + 
@@ -21,7 +21,9 @@ constants.introTHFOL = function (username) {
     '<p><span style="text-decoration: underline;">Please read the event details</span> carefully. Note that not all events feature lawmakers in person.</p>';
 };
 
-constants.LEGEND = `<small>
+constants.LEGEND = `
+              <p>If you aren’t sure if this is your member of Congress, visit http://www.house.gov/representatives/find/ and enter your address to confirm.</p>
+              <small>
                   <div style="padding:0; "><span style="color:#ff4741">Town Hall</span><span> - A forum where members of Congress give updates on the current affairs of Congress and answer questions from constituents.</span></div>
                   <div style="padding:0; "><span style="color:#ff4741">Empty Chair Town Hall</span><span> - A citizen-organized town hall held with or without the invited lawmaker.</span></div>
                   <div style="padding:0; "><span style="color:#ff4741">Tele-Town Hall Meeting</span><span> - A town hall conducted by conference call or online.</span></div>
@@ -29,14 +31,15 @@ constants.LEGEND = `<small>
                   <div style="padding:0; "><span style="color:#ff4741">Other</span><span> - Other opportunities to engage with members of Congress or their staff. Please read details carefully—events in this category can vary.</span></div>
               </small>`;
 
-constants.QUICK_NOTES =  `<p>Quick notes:</p>
+constants.QUICK_NOTES = `<p>Quick notes:</p>
     <ul>
-      <li>Not sure what to do at a town hall meeting? Our friends at Indivisible have written a terrific guide which we highly recommend: https://www.indivisibleguide.com/
-      </li>
+      <li>Register to vote! If you aren’t already registered--or need to update after moving--find the voter registration table and make sure to get registered!</li>
       <li>Bring your friends with you. Forward this email to them and ask them to attend.</li>
-      <li>Share your <a href="https://goo.gl/forms/JS1mkhMwgPutm5Fh2">Town Hall Stories</a> with us!</li>
-      <li>And if you attend, tweet us pictures at @townhallproject or email them to info@townhallproject.com. We’d love to see and hear how it went.</li>
-      <li>If you aren’t sure if this is your member of Congress, visit http://www.house.gov/representatives/find/ and enter your address to confirm.</li>
+      <li>You don’t have to be a policy expert--the most powerful thing you can do is share your story and convey why this issue is important to you.</li>
+      <li>Make sure somebody asks your Member of Congress when their next town hall is. Let them know you consider this part of their job.</li>
+      <li>Take photos and video! Tweet us pictures at @townhallproject, post them on Instagram or Facebook, or email them to info@townhallproject.com. We’d love to see and hear how it went.</li>
+      <li>Talk to the other people there with you. An in-person town hall is not just an opportunity to speak to your lawmaker but an opportunity to build community on common issues, to organize, and to take back our democracy.</li>
+      <li>We also recommend Indivisible’s <a href="https://www.indivisible.org/resource/successful-town-hall-tips/">How to Have a Succesful Town Hall guide.</a></li>
     </ul>
   <p>Thank you for your support. <strong>Stand up. Speak out.</strong></p>
 
@@ -53,6 +56,31 @@ constants.QUICK_NOTES =  `<p>Quick notes:</p>
   
   </body>`;
   
+
+constants.QUICK_NOTES_THFOL = `<p>Quick notes:</p>
+    <ul>
+      <li>Register to vote! If you aren’t already registered--or need to update after moving--find the voter registration table and make sure to get registered!</li>
+      <li>Bring your friends with you. Forward this email to them and ask them to attend.</li>
+      <li>You don’t have to be a policy expert--the most powerful thing you can do is share your story and convey why this issue is important to you.</li>
+      <li>Make sure somebody asks your Member of Congress when their next town hall is. Let them know you consider this part of their job.</li>
+      <li>Take photos and video! Tweet us pictures at @townhallproject, post them on Instagram or Facebook, or email them to info@townhallproject.com. We’d love to see and hear how it went.</li>
+      <li>Talk to the other people there with you. An in-person town hall is not just an opportunity to speak to your lawmaker but an opportunity to build community on common issues, to organize, and to take back our democracy.</li>
+      <li>We also recommend Indivisible’s <a href="https://www.indivisible.org/resource/successful-town-hall-tips/">How to Have a Succesful Town Hall guide.</a></li>
+    </ul>
+  <p>Thank you for your support. <strong>Stand up. Speak out.</strong></p>
+
+  <p>Nathan</p>
+  <section style="line-height: 16px; margin-bottom:25px;">
+  Nathan Williams<br>
+  Managing Director<br>
+  Town Hall Project<br>
+  townhallproject.com<br>
+  </section>
+  <footer style="line-height:14px; font-size: 12px;">
+  <small style="font-size: 10px; line-height:12px;">*Compiled by Town Hall Project volunteers. All efforts are made to verify accuracy of events. Event details can change at short notice, please contact your representative to confirm.<small><br>
+  </footer>
+  
+  </body>`;
   // <p style="text-align:center"><a href="https://secure.actblue.com/contribute/page/townhallprojectemail">Donate here</a></p>
   //<p>(Paid for by Town Hall Project. All donations to THP are not tax-deductible but help us keep this vital resource sustainable in the months ahead.)</p>
 
