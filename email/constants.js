@@ -22,7 +22,6 @@ constants.introTHFOL = function (username) {
 };
 
 constants.LEGEND = `
-              <p>If you aren’t sure if this is your member of Congress, visit http://www.house.gov/representatives/find/ and enter your address to confirm.</p>
               <small>
                   <div style="padding:0; "><span style="color:#ff4741">Town Hall</span><span> - A forum where members of Congress give updates on the current affairs of Congress and answer questions from constituents.</span></div>
                   <div style="padding:0; "><span style="color:#ff4741">Empty Chair Town Hall</span><span> - A citizen-organized town hall held with or without the invited lawmaker.</span></div>

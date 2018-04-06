@@ -1,5 +1,5 @@
 const User = require('./model');
-const TownHall = require('../townhall/model');
+const TownHall = require('../townhall/townhall-model');
 const sendEmail = require('../lib/send-email');
 
 module.exports = function(user) {

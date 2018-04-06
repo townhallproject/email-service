@@ -22,7 +22,7 @@ const getUsers = function(path) {
       }
     });
 };
-
+const stoppingPoint = '';
 const getAllUsers = function(page){
   // first time call page will not be defined
   var basepath = '/api/v2/people';
@@ -38,18 +38,26 @@ const getAllUsers = function(page){
       }
     }
     if (peopleList.length === 0) {
+      console.log('no users');
       getDataForUsers();
       return;
     }
     makeListbyDistrict(peopleList).then(function(){
       // if no more new pages, or we set a break point for testing
+      console.log(returnedData['_links']['next']);
       if (returnedData && !returnedData['_links']['next']) {
-        console.log('got all data');
+        console.log('got all users');
         getDataForUsers();
-      }  else {
+      } else {
         var nextPage = returnedData['_links']['next']['href'].split('people')[1];
         console.log(nextPage);
-        getAllUsers(nextPage);
+        if (nextPage === stoppingPoint){
+          console.log('stopping point');
+          getDataForUsers();
+        } else {
+
+          getAllUsers(nextPage);
+        }
       }
     }).catch(function(error){
       console.error(error);

@@ -92,7 +92,9 @@ class User {
     User.sentEmails.push(user.primaryEmail);
     user.removeUser();
     setTimeout(function () {
-      console.log('queuing', user.primaryEmail);
+      if(process.env.NODE_ENV === 'dev'){
+        console.log('queuing', user.primaryEmail);
+      }
       sendEmail.user(user, data);
     }, 1000 * (User.sentEmails.length));
   }
@@ -149,7 +151,6 @@ class User {
       return acc;
     }, []);
     if (alreadyInArray.length > 0 ) {
-      console.log('found duplicate', user.primaryEmail);
       alreadyInArray.forEach(function(ele){
         array[ele.indexInMaster] = ele.person.mergeData(user);
       });
@@ -213,7 +214,6 @@ class User {
             }
           }).catch(function(error){
             sendEmail.user(user, 'zip lookup failed' + error);
-            console.error('zip lookup failed', error);
             reject(error);
           });
       }
