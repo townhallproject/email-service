@@ -1,5 +1,5 @@
 const request = require('superagent');
-
+const moment = require('moment');
 const User = require('./model');
 const composeEmails = require('./composeEmails');
 const makeListbyDistrict = require('./make-list-by-district');
@@ -32,9 +32,13 @@ const getAllUsers = function(page){
     var people = returnedData['_embedded']['osdi:people'];
     var peopleList = [];
     for (const key of Object.keys(people)) {
-      var user = new User(people[key]);
-      if (user.primaryEmail) {
-        peopleList.push(user);
+      let person = people[key];
+      let createdOn = person.created_date;
+      if (moment(createdOn).isBefore(moment('2018-04-05T18:33:16Z'))){
+        var user = new User(people[key]);
+        if (user.primaryEmail) {
+          peopleList.push(user);
+        }
       }
     }
     if (peopleList.length === 0) {
@@ -44,7 +48,9 @@ const getAllUsers = function(page){
     }
     makeListbyDistrict(peopleList).then(function(){
       // if no more new pages, or we set a break point for testing
-      console.log(returnedData['_links']['next']);
+      if (process.env.NODE_ENV === 'dev') {
+        console.log(returnedData['_links']['next']);
+      }
       if (returnedData && !returnedData['_links']['next']) {
         console.log('got all users');
         getDataForUsers();
@@ -55,7 +61,6 @@ const getAllUsers = function(page){
           console.log('stopping point');
           getDataForUsers();
         } else {
-
           getAllUsers(nextPage);
         }
       }

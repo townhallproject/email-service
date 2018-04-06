@@ -9,12 +9,11 @@ class TownHall{
     }
   }
 
-  inNextWeek(lastEmailed){
+  inNextWeek(){
     let townhall = this;
-    let lastweekly = moment().day(constants.BIG_DAY - 7).endOf('day');
+    let lastweekly = moment().day(constants.BIG_DAY).endOf('day');
     let thisThursday = moment(lastweekly).add(7, 'days');
     let nextThursday = moment(lastweekly).add(14, 'days');
-    let lastDaily = lastEmailed.daily;
     let today = new Date().getDay();
     let townhallDay = moment(townhall.dateObj);
     let include = townhall.include();
@@ -35,7 +34,7 @@ class TownHall{
           }
           return false;
         }
-        if (townhall.lastUpdated > lastDaily) {
+        if (moment().diff(moment(townhall.lastUpdated), 'h') < 24) {
           // if not Thursday, is the event new since last emailed?
           TownHall.prints.changedToday.push(`<li>${townhall.Date}, ${townhall.meetingType}, include? ${include}</li>`);
           return true;
@@ -91,7 +90,7 @@ class TownHall{
     let time;
     let notes;
     let address;
-    // let updated;
+    let updated;
     let title;
     let repinfo = '';
     if (this.repeatingEvent) {
@@ -137,23 +136,23 @@ class TownHall{
     } else {
       address = '';
     }
-    // if (this.updatedBy) {
-    //   updated = '*The details of this event were changed recently';
-    // } else {
-    //   updated = '';
-    // }
+    if (this.updatedBy) {
+      updated = '*The details of this event were changed recently';
+    } else {
+      updated = '';
+    }
     if (this.chamber === 'upper'){
       repinfo = '(Senate)';
     } else if (this.district) {
       repinfo = `(${this.state}-${this.district})`;
     }
-    // <small><em>${updated}</em></small>
     let eventTemplate =
-      `<div style="box-shadow:0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); padding:20px; margin-bottom:10px;">
-      <strong style="color:#0d4668">${this.Member} ${repinfo}, <span style="color:#ff4741">${this.meetingType}</span></strong>
-        <section style="margin-left:10px; margin-bottom: 20px; line-height: 20px">
-        <ul>
-          ${title}
+    `<div style="box-shadow:0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); padding:20px; margin-bottom:10px;">
+    <strong style="color:#0d4668">${this.Member} ${repinfo}, <span style="color:#ff4741">${this.meetingType}</span></strong>
+    <small><em>${updated}</em></small>
+    <section style="margin-left:10px; margin-bottom: 20px; line-height: 20px">
+    <ul>
+    ${title}
           <li>${date}</li>
           ${time}
           ${location}
