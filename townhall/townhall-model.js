@@ -10,16 +10,30 @@ class TownHall{
   }
 
   inNextWeek(){
+    let dateToday = moment();
+  
     let townhall = this;
-    let lastweekly = moment().day(constants.BIG_DAY).endOf('day');
-    let thisThursday = moment(lastweekly).add(7, 'days');
-    let nextThursday = moment(lastweekly).add(14, 'days');
-    let today = new Date().getDay();
+    let bigDayDate = moment(dateToday);
+    let thisBigDay = bigDayDate.day(constants.BIG_DAY).endOf('day');
+    let lastweekly;
+    let nextWeeklyEmail;
+    let today = dateToday.day();
     let townhallDay = moment(townhall.dateObj);
+
+    if (thisBigDay.isBefore(dateToday)){
+      lastweekly = thisBigDay;
+    } else {
+      lastweekly = bigDayDate.day(constants.BIG_DAY - 7 ).endOf('day');
+    }
+    if (today === constants.BIG_DAY) {
+      nextWeeklyEmail = moment(lastweekly).add(14, 'days');
+    } else {
+      nextWeeklyEmail = moment(lastweekly).add(7, 'days');
+    }
     let include = townhall.include();
 
     if (townhall.dateObj) {
-      if (townhall.dateObj < moment()) {
+      if (townhallDay.isBefore(dateToday)) {
         // in past
         if (include) {
           TownHall.prints.inPast.push(`<li>${townhall.Date}</li>`);
@@ -28,20 +42,20 @@ class TownHall{
       }
       if (today !== constants.BIG_DAY) {
         // not in the next week
-        if (townhallDay.isAfter(thisThursday)) {
+        if (townhallDay.isAfter(nextWeeklyEmail)) {
           if (include) {
             TownHall.prints.notInNextWeek.push(`<li>${townhall.Date}</li>`);
           }
           return false;
         }
-        if (moment().diff(moment(townhall.lastUpdated), 'h') < 24) {
+        if (townhall.lastUpdated.isBetween(lastweekly, nextWeeklyEmail, '[)')) {
           // if not Thursday, is the event new since last emailed?
           TownHall.prints.changedToday.push(`<li>${townhall.Date}, ${townhall.meetingType}, include? ${include}</li>`);
           return true;
         }
       }
       // if Thursday
-      if ((today === constants.BIG_DAY) && (townhallDay.isBetween(moment().add(5, 'hours'), nextThursday, '(]'))) {
+      if ((today === constants.BIG_DAY) && (townhallDay.isBetween(dateToday.add(5, 'hours'), nextWeeklyEmail, '(]'))) {
         if (include) {
           TownHall.prints.isThursday.push(`<li>${townhall.Date}}</li>`);
         }

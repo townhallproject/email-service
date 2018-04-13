@@ -1,5 +1,4 @@
 const request = require('superagent');
-const moment = require('moment');
 const User = require('./model');
 const composeEmails = require('./composeEmails');
 const makeListbyDistrict = require('./make-list-by-district');
@@ -32,13 +31,9 @@ const getAllUsers = function(page){
     var people = returnedData['_embedded']['osdi:people'];
     var peopleList = [];
     for (const key of Object.keys(people)) {
-      let person = people[key];
-      let createdOn = person.created_date;
-      if (moment(createdOn).isBefore(moment('2018-04-05T18:33:16Z'))){
-        var user = new User(people[key]);
-        if (user.primaryEmail) {
-          peopleList.push(user);
-        }
+      var user = new User(people[key]);
+      if (user.primaryEmail) {
+        peopleList.push(user);
       }
     }
     if (peopleList.length === 0) {

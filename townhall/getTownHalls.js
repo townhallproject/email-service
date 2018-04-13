@@ -1,13 +1,13 @@
 const firebasedb = require('../lib/setupFirebase');
 const TownHall = require('./townhall-model');
 
-module.exports = function(lastUpdated){
+module.exports = function(){
   return firebasedb.ref('townHalls').once('value').then(function (snapshot) {
     snapshot.forEach(function(ele) {
       var townhall = new TownHall(ele.val());
 
       if (
-        townhall.inNextWeek(lastUpdated) &&
+        townhall.inNextWeek() &&
           townhall.include() &&
           townhall.state
       ) {
