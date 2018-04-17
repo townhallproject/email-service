@@ -62,7 +62,7 @@ describe('constants', () => {
 
     test('it returns user email if in production', () => {
       process.env.NODE_ENV = 'production';
-      let result = constants.emailTo('fullname', {primaryEmail : 'email'});
+      let result = constants.emailTo('fullname', 'email');
       expect(result).toEqual('fullname <email>');
     });
 
