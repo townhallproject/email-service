@@ -105,9 +105,10 @@ constants.partnerEmailCC = function () {
   return '';
 };
 
-constants.emailTo = function (fullname, user) {
+constants.emailTo = function (fullname, email) {
+  console.log(`${fullname} <${email}>`);
   if (process.env.NODE_ENV === 'production') {
-    return `${fullname} <${user.primaryEmail}>`;
+    return `${fullname} <${email}>`;
   }
   return process.env.ME;
 };

@@ -84,7 +84,7 @@ class User {
 
     let data = {
       from: 'Town Hall Updates <update@updates.townhallproject.com>',
-      to: constants.emailTo(fullname, user),
+      to: constants.emailTo(fullname, user.primaryEmail),
       subject: constants.subjectLine(today),
       html: htmltext,
     };
