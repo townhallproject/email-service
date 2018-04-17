@@ -11,7 +11,6 @@ class TownHall{
 
   inNextWeek(){
     let dateToday = moment();
-  
     let townhall = this;
     let bigDayDate = moment(dateToday);
     let thisBigDay = bigDayDate.day(constants.BIG_DAY).endOf('day');
@@ -48,7 +47,7 @@ class TownHall{
           }
           return false;
         }
-        if (townhall.lastUpdated.isBetween(lastweekly, nextWeeklyEmail, '[)')) {
+        if (moment(townhall.lastUpdated).isBetween(lastweekly, nextWeeklyEmail, '[)')) {
           // if not Thursday, is the event new since last emailed?
           TownHall.prints.changedToday.push(`<li>${townhall.Date}, ${townhall.meetingType}, include? ${include}</li>`);
           return true;

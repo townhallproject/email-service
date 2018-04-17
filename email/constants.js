@@ -76,12 +76,12 @@ constants.QUICK_NOTES_THFOL = `<p>Quick notes:</p>
   townhallproject.com<br>
   </section>
   <footer style="line-height:14px; font-size: 12px;">
+  <p style="text-align:center"><a href="https://secure.actblue.com/contribute/page/townhallprojectemail">Donate here</a></p>
+  <p>(Paid for by Town Hall Project. All donations to THP are not tax-deductible but help us keep this vital resource sustainable in the months ahead.)</p>
   <small style="font-size: 10px; line-height:12px;">*Compiled by Town Hall Project volunteers. All efforts are made to verify accuracy of events. Event details can change at short notice, please contact your representative to confirm.<small><br>
   </footer>
   
   </body>`;
-// <p style="text-align:center"><a href="https://secure.actblue.com/contribute/page/townhallprojectemail">Donate here</a></p>
-//<p>(Paid for by Town Hall Project. All donations to THP are not tax-deductible but help us keep this vital resource sustainable in the months ahead.)</p>
 
 
 constants.subjectLinePartner = function (today, district) {
@@ -102,7 +102,7 @@ constants.partnerEmailCC = function () {
   if (process.env.NODE_ENV === 'production') {
     return process.env.PARTNERS;
   }
-  return '';
+  return 'meganrm@gmail.com';
 };
 
 constants.emailTo = function (fullname, email) {
