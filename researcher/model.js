@@ -17,7 +17,7 @@ class Researcher {
       subject: 'Reminder to submit events',
       html: html,
     };
-    data['h:Reply-To']=`TownHall Project <info@townhallproject.com>, ${process.env.EMILY}`;
+    data['h:Reply-To'] = `TownHall Project <info@townhallproject.com>, ${process.env.JENITA}`;
     sendEmail.send(data);
   }
 }

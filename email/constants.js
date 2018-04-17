@@ -120,7 +120,7 @@ constants.compileMocReport = function (mocs){
   <p>If you are able to continue (and we hope you are!) please make sure to submit your research OR a "No New Event" submission for every MoC by end of day each Monday and Friday. As always, my research leads and I are always happy to answer questions about the process or provide best practices on event research.</p>
   <p>Thank you for all you do!</p>
   Best,<br>
-  Emily`;
+  Jenita`;
   return copy;
 };
 
