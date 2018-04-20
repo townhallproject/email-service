@@ -21,7 +21,7 @@ function loopThroughMocs(mocs){
   return new Promise(function(resolve, reject) {
     let mocIDs = Object.keys(mocs);
     mocIDs.forEach(function(mocID, index){
-      if (mocs[mocID].isAssigned){
+      if (mocs[mocID].isAssigned === true) {
         let now = moment();
         let timeAgo = moment(mocs[mocID].lastUpdated);
         let days = now.diff(timeAgo, 'days');
