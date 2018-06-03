@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 require('dotenv').load();
 const find = require('lodash').find;
+const indexOf = require('lodash').indexOf;
 const TownHall = require('../townhall/townhall-model.js');
 const getTownHalls = require('../townhall/getTownHalls');
 const getLastSent = require('../townhall/getLastSent');
 const constants = require('../email/constants');
-
+const Press = require('../press/model');
 const sendEmail = require('../lib/send-email');
 
 // unpacks data from action network
@@ -71,6 +72,23 @@ getLastSent().then(function(lastUpdated){
       newuser.composeEmail(key, TownHall.senateEvents[key]);
     }
   });
+});
+
+getTownHalls(true).then(function () {
+  console.log('got events');
+  let townHallsToSend = {};
+  for (const key of Object.keys(TownHall.townHallbyDistrict)) {
+    if (indexOf(constants.pressDistricts.reuters, key)) {
+      townHallsToSend[key] = TownHall.townHallbyDistrict[key];
+    }
+  }
+  for (const key of Object.keys(TownHall.senateEvents)) {
+    if (indexOf(constants.pressDistricts.reuters, key)) {
+      townHallsToSend[key] = TownHall.townHallbyDistrict[key];
+    }
+  }
+
+  Press.composeEmail(townHallsToSend);
 });
 
 module.exports = PartnerEmail;

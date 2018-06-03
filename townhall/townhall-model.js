@@ -47,7 +47,7 @@ class TownHall{
           }
           return false;
         }
-        if (moment(townhall.lastUpdated).isBetween(lastweekly, nextWeeklyEmail, '[)')) {
+        if (moment(townhall.lastUpdated).isBetween(lastweekly, nextWeeklyEmail, '[)') && moment().diff(moment(townhall.lastUpdated), 'h') < 24) {
           // if not Thursday, is the event new since last emailed?
           TownHall.prints.changedToday.push(`<li>${townhall.Date}, ${townhall.meetingType}, include? ${include}</li>`);
           return true;
