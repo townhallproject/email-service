@@ -27,7 +27,7 @@ class Press {
     return report;
   }
 
-  static composeEmail(eventsToSend) {
+  static composeEmail(eventsToSend, name, emailTo) {
     let htmltext = '';
     for (const key of Object.keys(eventsToSend)) {
       htmltext += Press.upbackEvents(key, eventsToSend[key]);
@@ -35,7 +35,7 @@ class Press {
 
     let data = {
       from: 'Town Hall Updates <update@updates.townhallproject.com>',
-      to: constants.emailTo('Jason Lange', process.env.JASON),
+      to: constants.emailTo(name, emailTo),
       html: htmltext,
       subject: 'Town halls in the next week',
     };

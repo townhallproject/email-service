@@ -2,6 +2,7 @@
 require('dotenv').load();
 const find = require('lodash').find;
 const indexOf = require('lodash').indexOf;
+const firebasedb = require('../lib/setupFirebase');
 const TownHall = require('../townhall/townhall-model.js');
 const getTownHalls = require('../townhall/getTownHalls');
 const getLastSent = require('../townhall/getLastSent');
@@ -74,21 +75,26 @@ getLastSent().then(function(lastUpdated){
   });
 });
 
-getTownHalls(true).then(function () {
-  console.log('got events');
-  let townHallsToSend = {};
-  for (const key of Object.keys(TownHall.townHallbyDistrict)) {
-    if (indexOf(constants.pressDistricts.reuters, key)) {
-      townHallsToSend[key] = TownHall.townHallbyDistrict[key];
-    }
-  }
-  for (const key of Object.keys(TownHall.senateEvents)) {
-    if (indexOf(constants.pressDistricts.reuters, key)) {
-      townHallsToSend[key] = TownHall.townHallbyDistrict[key];
-    }
-  }
-
-  Press.composeEmail(townHallsToSend);
+firebasedb.ref('subscribers/').once('value').then(subscribers => {
+  getTownHalls(true).then(function () {
+    console.log('got events');
+    subscribers.forEach(subscriberRef => {
+      const subscriber = subscriberRef.val();
+      let townHallsToSend = {};
+      for (const key of Object.keys(TownHall.townHallbyDistrict)) {
+        if (indexOf(subscriber.districts, key)) {
+          townHallsToSend[key] = TownHall.townHallbyDistrict[key];
+        }
+      }
+      for (const key of Object.keys(TownHall.senateEvents)) {
+        if (indexOf(subscriber.districts, key)) {
+          townHallsToSend[key] = TownHall.townHallbyDistrict[key];
+        }
+      }
+      console.log('sending subscribers emails', townHallsToSend, subscriber.email);
+      Press.composeEmail(townHallsToSend, subscriber.name, subscriber.email);
+    });
+  });
 });
 
 module.exports = PartnerEmail;
