@@ -28,6 +28,7 @@
     "geo-distance": "^0.1.2",
     "mailgun-js": "^0.13.1",
     "moment": "^2.21.0",
+    "npm": "^6.1.0",
     "request": "^2.83.0",
     "superagent": "^3.8.2",
     "twilio": "^3.9.3"
