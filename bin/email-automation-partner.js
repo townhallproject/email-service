@@ -5,7 +5,6 @@ const indexOf = require('lodash').indexOf;
 const firebasedb = require('../lib/setupFirebase');
 const TownHall = require('../townhall/townhall-model.js');
 const getTownHalls = require('../townhall/getTownHalls');
-const getLastSent = require('../townhall/getLastSent');
 const constants = require('../email/constants');
 const Press = require('../press/model');
 const sendEmail = require('../lib/send-email');
@@ -60,19 +59,17 @@ PartnerEmail.eventReport = function(){
   sendEmail.send(data);
 };
 
-getLastSent().then(function(lastUpdated){
-  getTownHalls(lastUpdated).then(function(){
-    console.log('got events');
-    PartnerEmail.eventReport();
-    for (const key of Object.keys(TownHall.townHallbyDistrict)) {
-      let thispartnerEmail = new PartnerEmail();
-      thispartnerEmail.composeEmail(key, TownHall.townHallbyDistrict[key]);
-    }
-    for (const key of Object.keys(TownHall.senateEvents)) {
-      let newuser = new PartnerEmail();
-      newuser.composeEmail(key, TownHall.senateEvents[key]);
-    }
-  });
+getTownHalls().then(function(){
+  console.log('got events');
+  PartnerEmail.eventReport();
+  for (const key of Object.keys(TownHall.townHallbyDistrict)) {
+    let thispartnerEmail = new PartnerEmail();
+    thispartnerEmail.composeEmail(key, TownHall.townHallbyDistrict[key]);
+  }
+  for (const key of Object.keys(TownHall.senateEvents)) {
+    let newuser = new PartnerEmail();
+    newuser.composeEmail(key, TownHall.senateEvents[key]);
+  }
 });
 
 firebasedb.ref('subscribers/').once('value').then(subscribers => {

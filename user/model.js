@@ -1,3 +1,4 @@
+const moment = require('moment');
 const Distance = require('geo-distance');
 const find = require('lodash').find;
 const firebasedb = require('../lib/setupFirebase');
@@ -20,10 +21,10 @@ class User {
     this.zip =
       opts.postal_addresses[0].postal_code ? opts.postal_addresses[0].postal_code.toString(): false;
     this.state = opts.postal_addresses[0].region || false;
-
+    this.districts = opts.custom_fields.districts || [];
     this.lat = opts.postal_addresses[0].location.latitude || false;
     this.lng = opts.postal_addresses[0].location.longitude || false;
-
+    this.created_date = opts.created_date;
     let primaryEmail = false;
 
     if (opts.email_addresses) {
@@ -36,16 +37,6 @@ class User {
     }
   }
 
-  removeUser (){
-    let user = this;
-    user.districts.forEach(function(district){
-      User.usersByDistrict[district] = User.usersByDistrict[district]
-        .filter(function(ele){
-          return ele.primaryEmail !== user.primaryEmail;
-        });
-    });
-  }
-
   userReport(){
     let user = this;
     let userTemplate =
@@ -54,7 +45,7 @@ class User {
   }
 
   // composes email using the list of events
-  composeEmail(district, allevents){
+  composeEmail(allevents){
     let username;
     let fullname;
     let user = this;
@@ -90,7 +81,6 @@ class User {
     };
     data['h:Reply-To']='TownHall Project <info@townhallproject.com>';
     User.sentEmails.push(user.primaryEmail);
-    user.removeUser();
     setTimeout(function () {
       if(process.env.NODE_ENV === 'dev'){
         console.log('queuing', user.primaryEmail);
@@ -159,71 +149,133 @@ class User {
     }
   }
 
-  checkOtherDistrictEvents(district) {
-    let allOtherEvents = [];
-    let user = this;
-    let districts = user.districts;
-    districts.splice(user.districts.indexOf(district), 1);
-    if (districts.length > 0) {
-      districts.forEach(function(otherDistrict){
-        if (TownHall.townHallbyDistrict[otherDistrict]) {
-          allOtherEvents = allOtherEvents.concat(TownHall.townHallbyDistrict[otherDistrict]);
+  static formatDistrict(district){
+    if (district.abr){
+      let state = district.abr;
+      let districtNo = district.dis;
+      return `${state}-${parseInt(districtNo)}`;
+    }
+    if (district.split('-').length === 2 && (parseInt(district.split('-')[1]) || parseInt(district.split('-')[1]) === 0) && district.split('-')[0].match(/[A-Z]{2}/g)[0]) {
+      return `${district.split('-')[0].match(/[A-Z]{2}/g)[0]}-${parseInt(district.split('-')[1])}`;
+    }
+  }
+
+  checkUserCustomDistrictField(){
+    let districts = this.districts;
+    try {
+      districts = districts.replace(/[=>]{2}/g, ':');
+    } catch (e) {
+
+    }
+    if (typeof districts === 'string') {
+      if (User.formatDistrict(districts)){
+        return this.districts = [User.formatDistrict(districts)];
+      }
+      else {
+        try {
+          districts = eval(districts);
+          if (Array.isArray(districts)) {
+            this.districts = districts.map((district) => {
+              if (User.formatDistrict(district)) {
+                return User.formatDistrict(district);
+              } else {
+                console.log('failed');
+              }
+            });
+          }
+        } catch(e) {
+          if (districts.split(',')) {
+            return this.districts = districts.split(',').map((district) => {
+              if (User.formatDistrict(district)) {
+                return User.formatDistrict(district);
+              } else {
+                console.log('failed', district);
+              }
+            });
+          }
+        }
+      }
+    } else if (Array.isArray(districts)){
+      this.districts = districts.map((district)=> {
+        console.log('array', district);
+        if (User.formatDistrict(district)) {return User.formatDistrict(district);}
+        else {
+          console.log(district);
         }
       });
     }
-    return allOtherEvents;
   }
 
-  // look up a district based on zip
   // rejects zips that aren't 5 digits
-  getDistricts(acc, index){
+  getDistricts(){
     let user = this;
-    let zipMatch = user.zip.match(/\b\d{5}\b/g);
-    return new Promise(function (resolve, reject) {
-      if (!zipMatch) {
+    // first check if there are already custom districts
+    if (this.districts.length > 0) {
+      return Promise.resolve();
+    }
+    // if no custom districts, make sure there is a zip to find districts with
+    if (!user.zip) {
+      if (moment(user.created_date).isAfter(moment().subtract(7, 'days'))){
         User.zipErrors.push(user);
-        resolve(index);
-      } else {
-        let zip = zipMatch[0];
-        firebasedb.ref('zipToDistrict/' + zip).once('value')
-          .then(function (snapshot) {
-            if (!snapshot.exists()) {
+      }  
+      return Promise.reject('no zip');
+    }
+    let zipMatch = user.zip.match(/\b\d{5}\b/g);
+    if (!zipMatch) {
+      if (moment(user.created_date).isAfter(moment().subtract(7, 'days'))) {
+        User.zipErrors.push(user);
+      }
+      return Promise.reject('not formatted zip');
+    } 
+    let zip = zipMatch[0];
+    return firebasedb.ref('zipToDistrict/' + zip).once('value')
+      .then(function (snapshot) {
+        if (!snapshot.exists()) {
+          if (User.zipsNotInDatabase.indexOf(zip) < 0 &&
+          moment(user.created_date).isAfter(moment().subtract(7, 'days'))
+          ) {
+            User.zipsNotInDatabase.push(zip);
+          }
+        } else {
+          snapshot.forEach(function (ele) {
+            if (parseInt(ele.val()['dis']) || parseInt(ele.val()['dis']) === 0 ) {
+              let district = ele.val()['abr'] + '-' + parseInt(ele.val()['dis']);
+              user.districts.push(district);
+            } else {
               if (User.zipsNotInDatabase.indexOf(zip) < 0) {
                 User.zipsNotInDatabase.push(zip);
               }
-              resolve(index);
-            } else {
-              user.districts = [];
-              snapshot.forEach(function (ele) {
-                if (parseInt(ele.val()['dis']) || parseInt(ele.val()['dis']) === 0 ) {
-                  let district = ele.val()['abr'] + '-' + parseInt(ele.val()['dis']);
-                  user.districts.push(district);
-                } else {
-                  if (User.zipsNotInDatabase.indexOf(zip) < 0) {
-                    User.zipsNotInDatabase.push(zip);
-                  }
-                }
-              });
-              user.districts.forEach(function(district){
-                if (!acc[district]) {
-                  acc[district] = [];
-                }
-                user.checkForDup(acc[district]);
-              });
-              resolve(index);
             }
-          }).catch(function(error){
-            sendEmail.user(user, 'zip lookup failed' + error);
-            reject(error);
           });
+        }
+      }).catch(function(error){
+        sendEmail.user(user, 'zip lookup failed' + error);
+        throw(error);
+      });
+  }
+
+  getDataForUser() {
+    if (User.sentEmails.indexOf(this.primaryEmail) > 0) {
+      console.log('user already got email', this.primaryEmail);
+      return [];
+    } 
+    if (!this.districts || this.districts.length === 0) {
+      return [];
+    }
+    let allevents = [];
+    this.districts.forEach(function (district) {
+      if (TownHall.townHallbyDistrict[district]) {
+        allevents = allevents.concat(TownHall.townHallbyDistrict[district]);
       }
     });
+    let senateEvents = this.getSenateEvents();
+
+    allevents = senateEvents.length > 0 ? allevents.concat(senateEvents) : allevents;
+    return allevents;
   }
 }
 
 // Global data state
-User.usersByDistrict = {};
-User.allUsers = [];
 User.sentEmails = [];
 User.zipErrors = [];
 User.zipsNotInDatabase = [];
