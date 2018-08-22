@@ -15,7 +15,10 @@ module.exports = function(forceInclude){
           // get state two letter code
           townhall.addToEventList(TownHall.senateEvents, townhall.state);
         } else if (townhall.district){
-          townhall.addToEventList(TownHall.townHallbyDistrict, townhall.state + '-' + Number(townhall.district));
+          let district = townhall.district === 'At-Large' ? '00' : townhall.district;
+          if (!isNaN(Number(district))) {
+            townhall.addToEventList(TownHall.townHallbyDistrict, townhall.state + '-' + Number(district));
+          }
         } else {
           console.log(townhall.eventId);
         }
