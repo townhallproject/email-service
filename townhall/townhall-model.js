@@ -67,6 +67,9 @@ class TownHall{
   include(){
     let townhall = this;
     let include;
+    if (townhall.state === 'PA') {
+      return false;
+    }
     switch (townhall.meetingType) {
     case 'Town Hall':
       include = true;
