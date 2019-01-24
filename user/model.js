@@ -1,5 +1,5 @@
 const Distance = require('geo-distance');
-const find = require('lodash').find;
+const { find, map } = require('lodash');
 const firebasedb = require('../lib/setupFirebase');
 const TownHall = require('../townhall/townhall-model.js');
 const sendEmail = require('../lib/send-email');
@@ -24,7 +24,25 @@ class User {
     this.lat = opts.postal_addresses[0].location.latitude || false;
     this.lng = opts.postal_addresses[0].location.longitude || false;
 
-    let primaryEmail = false;
+    let primaryEmail = false; 
+    if (opts.custom_fields && opts.custom_fields.districts) {
+      const { districts } = opts.custom_fields;
+      let formattedDistricts;
+      if (districts.split('[').length > 1 ) {
+        try {
+          formattedDistricts = JSON.parse(districts);
+        } catch (error) {
+          console.log(error, districts);
+        }
+      } else if (typeof districts === 'string'){
+        formattedDistricts = [districts];
+      }
+      if (typeof districts === 'object'){
+        formattedDistricts = map(districts, district => district);
+      }
+      this.districts = formattedDistricts;
+      console.log(districts, this.districts);
+    }
 
     if (opts.email_addresses) {
       opts.email_addresses.forEach(function(ele){
