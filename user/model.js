@@ -12,6 +12,31 @@ String.prototype.toProperCase = function () {
 };
 
 class User {
+  static checkUserCustomDistrictField(districts) {
+    let formattedDistricts;
+    try {
+      districts = districts.replace(/[=>]{2}/g, ':');
+      console.log('replaced', districts);
+    } catch (e) {
+
+    }
+    if (districts.split('[').length > 1) {
+      try {
+        formattedDistricts = JSON.parse(districts);
+      } catch (error) {
+        console.log(error, districts);
+      }
+    } else if (typeof districts === 'string') {
+      formattedDistricts = [districts];
+    } else if (Array.isArray(districts)) {
+      formattedDistricts = districts;
+    }
+    if (typeof districts === 'object') {
+      formattedDistricts = map(districts, district => district);
+    }
+    return formattedDistricts;
+  }
+
   constructor(opts) {
 
     this.firstname = opts.given_name ? opts.given_name.trim().toProperCase(): false;
@@ -26,21 +51,8 @@ class User {
 
     let primaryEmail = false; 
     if (opts.custom_fields && opts.custom_fields.districts) {
-      const { districts } = opts.custom_fields;
-      let formattedDistricts;
-      if (districts.split('[').length > 1 ) {
-        try {
-          formattedDistricts = JSON.parse(districts);
-        } catch (error) {
-          console.log(error, districts);
-        }
-      } else if (typeof districts === 'string'){
-        formattedDistricts = [districts];
-      }
-      if (typeof districts === 'object'){
-        formattedDistricts = map(districts, district => district);
-      }
-      this.districts = formattedDistricts;
+      const { districts } = opts.custom_fields;    
+      this.districts = User.checkUserCustomDistrictField(districts);
       console.log(districts, this.districts);
     }
 
