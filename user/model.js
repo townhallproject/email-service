@@ -12,27 +12,37 @@ String.prototype.toProperCase = function () {
 };
 
 class User {
+
+  static formatDistrict(district) {
+    if (district.abr) {
+      let state = district.abr;
+      let districtNo = district.dis;
+      return `${state}-${parseInt(districtNo)}`;
+    }
+    if (district.split('-').length === 2 && (parseInt(district.split('-')[1]) || parseInt(district.split('-')[1]) === 0) && district.split('-')[0].match(/[A-Z]{2}/g)[0]) {
+      return `${district.split('-')[0].match(/[A-Z]{2}/g)[0]}-${parseInt(district.split('-')[1])}`;
+    }
+  }
+
   static checkUserCustomDistrictField(districts) {
     let formattedDistricts;
     try {
       districts = districts.replace(/[=>]{2}/g, ':');
-      console.log('replaced', districts);
     } catch (e) {
-
+      console.log(e, districts);
     }
     if (districts.split('[').length > 1) {
       try {
-        formattedDistricts = JSON.parse(districts);
-      } catch (error) {
-        console.log(error, districts);
+        districts = JSON.parse(districts);
+      } catch (e) {
+        console.log(e, districts);
       }
-    } else if (typeof districts === 'string') {
-      formattedDistricts = [districts];
-    } else if (Array.isArray(districts)) {
-      formattedDistricts = districts;
-    }
-    if (typeof districts === 'object') {
-      formattedDistricts = map(districts, district => district);
+    } 
+    
+    if (typeof districts === 'string') {
+      formattedDistricts = [User.formatDistrict(districts)];
+    } else if (typeof districts === 'object') {
+      formattedDistricts = map(districts, User.formatDistrict);
     }
     return formattedDistricts;
   }
@@ -53,7 +63,8 @@ class User {
     if (opts.custom_fields && opts.custom_fields.districts) {
       const { districts } = opts.custom_fields;    
       this.districts = User.checkUserCustomDistrictField(districts);
-      console.log(districts, this.districts);
+    } else {
+      this.districts = [];
     }
 
     if (opts.email_addresses) {
@@ -210,6 +221,9 @@ class User {
     let user = this;
     let zipMatch = user.zip.match(/\b\d{5}\b/g);
     return new Promise(function (resolve, reject) {
+      if (user.districts && user.districts.length > 0) {
+        return resolve(index);
+      }
       if (!zipMatch) {
         User.zipErrors.push(user);
         resolve(index);
