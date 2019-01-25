@@ -38,7 +38,7 @@ const getAllUsers = function(page){
     }
     if (peopleList.length === 0) {
       console.log('no users');
-      // getDataForUsers();
+      getDataForUsers();
       return;
     }
     makeListbyDistrict(peopleList).then(function(){
@@ -48,24 +48,24 @@ const getAllUsers = function(page){
       }
       if (returnedData && !returnedData['_links']['next']) {
         console.log('got all users');
-        // getDataForUsers();
+        getDataForUsers();
       } else {
         var nextPage = returnedData['_links']['next']['href'].split('people')[1];
         console.log(nextPage);
         if (nextPage === stoppingPoint){
           console.log('stopping point');
-          // getDataForUsers();
+          getDataForUsers();
         } else {
           getAllUsers(nextPage);
         }
       }
     }).catch(function(error){
       console.error(error);
-      // composeEmails.errorEmail('making people list ', error);
+      composeEmails.errorEmail('making people list ', error);
     });
   }).catch(function(error){
     console.error(error);
-    // composeEmails.errorEmail('get users error', error);
+    composeEmails.errorEmail('get users error', error);
   });
 };
 
