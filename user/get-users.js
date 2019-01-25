@@ -32,7 +32,7 @@ const getAllUsers = function(page){
     var peopleList = [];
     for (const key of Object.keys(people)) {
       var user = new User(people[key]);
-      if (user.primaryEmail) {
+      if (user.primaryEmail && user.include) {
         peopleList.push(user);
       }
     }

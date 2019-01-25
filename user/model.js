@@ -1,5 +1,5 @@
 const Distance = require('geo-distance');
-const { find, map } = require('lodash');
+const { filter, find, map } = require('lodash');
 const firebasedb = require('../lib/setupFirebase');
 const TownHall = require('../townhall/townhall-model.js');
 const sendEmail = require('../lib/send-email');
@@ -19,9 +19,14 @@ class User {
       let districtNo = district.dis;
       return `${state}-${parseInt(districtNo)}`;
     }
-    if (district.split('-').length === 2 && (parseInt(district.split('-')[1]) || parseInt(district.split('-')[1]) === 0) && district.split('-')[0].match(/[A-Z]{2}/g)[0]) {
-      return `${district.split('-')[0].match(/[A-Z]{2}/g)[0]}-${parseInt(district.split('-')[1])}`;
+    if (district.split('-').length === 2) {
+      let districtNo = parseInt(district.split('-')[1]);
+      let stateAbr = district.split('-')[0].toUpperCase();
+      if ((districtNo || districtNo === 0) && stateAbr.match(/[A-Z]{2}/g)[0]) {
+        return `${stateAbr.match(/[A-Z]{2}/g)[0]}-${parseInt(district.split('-')[1])}`;
+      }
     }
+    return false;
   }
 
   static checkUserCustomDistrictField(districts) {
@@ -40,9 +45,9 @@ class User {
     } 
     
     if (typeof districts === 'string') {
-      formattedDistricts = [User.formatDistrict(districts)];
+      formattedDistricts = districts.split('-').length === 2 ? [User.formatDistrict(districts)] : [];
     } else if (typeof districts === 'object') {
-      formattedDistricts = map(districts, User.formatDistrict);
+      formattedDistricts = filter(map(districts, User.formatDistrict), (ele) => !!ele );
     }
     return formattedDistricts;
   }
@@ -58,8 +63,13 @@ class User {
 
     this.lat = opts.postal_addresses[0].location.latitude || false;
     this.lng = opts.postal_addresses[0].location.longitude || false;
-
-    let primaryEmail = false; 
+    this.include = true;
+    if (
+      opts.custom_fields &&
+      opts.custom_fields.NoOptIn && 
+      opts.custom_fields.NoOptIn === 'Y') {
+      this.include = false;
+    }
     if (opts.custom_fields && opts.custom_fields.districts) {
       const { districts } = opts.custom_fields;    
       this.districts = User.checkUserCustomDistrictField(districts);
@@ -67,6 +77,7 @@ class User {
       this.districts = [];
     }
 
+    let primaryEmail = false;
     if (opts.email_addresses) {
       opts.email_addresses.forEach(function(ele){
         if (ele.primary === true && ele.status === 'subscribed') {
