@@ -72,6 +72,7 @@ getTownHalls().then(function(){
   }
 });
 
+
 firebasedb.ref('subscribers/').once('value').then(subscribers => {
   getTownHalls(true).then(function () {
     console.log('got events');
