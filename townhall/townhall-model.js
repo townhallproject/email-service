@@ -183,6 +183,7 @@ class TownHall{
 // Global data state
 TownHall.townHallbyDistrict = {};
 TownHall.senateEvents = {};
+TownHall.stateEvents = {};
 
 // admin.database.enableLogging(true);
 TownHall.prints = {

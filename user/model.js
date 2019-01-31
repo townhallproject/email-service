@@ -228,7 +228,7 @@ class User {
 
   // look up a district based on zip
   // rejects zips that aren't 5 digits
-  getDistricts(acc, index){
+  getDistricts(acc, index) {
     let user = this;
     let zipMatch = user.zip.match(/\b\d{5}\b/g);
     return new Promise(function (resolve, reject) {
