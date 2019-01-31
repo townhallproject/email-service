@@ -7,11 +7,10 @@ module.exports = function (people) {
       return new User(people[key]);
     })
     .filter((user) => {
-      return user.primaryEmail;
+      return user.primaryEmail && user.include;
     }).forEach((user) => {
-      user.checkUserCustomDistrictField();
 
-      user.getDistricts().then(function () {
+      user.getDistricts().then( () => {
         const allEvents = user.getDataForUser();
         if (allEvents && allEvents.length > 0 ) {
           user.composeEmail(allEvents);

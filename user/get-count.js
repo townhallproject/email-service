@@ -47,7 +47,6 @@ const getAllUsers = function (page) {
         user.lat = null;
         user.lng = null;
 
-        user.checkUserCustomDistrictField();
         this.districtsString = JSON.stringify(this.districts);
         delete user.lng;
         delete user.lat;
