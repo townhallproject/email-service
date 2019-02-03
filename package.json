@@ -7,6 +7,7 @@
     "test": "jest -i --coverage --forceExit",
     "lint": "eslint --fix .",
     "start": "node index.js",
+    "get-events": "node bin/get-events.js",
     "users": "node bin/email-automation-users"
   },
   "repository": {
