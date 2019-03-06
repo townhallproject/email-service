@@ -1,10 +1,14 @@
 const moment = require('moment');
 const Distance = require('geo-distance');
-const { filter, find, map } = require('lodash');
+const { filter, find, map, includes } = require('lodash');
 const firebasedb = require('../lib/setupFirebase');
 const TownHall = require('../townhall/townhall-model.js');
 const sendEmail = require('../lib/send-email');
 const constants = require('../email/constants');
+const {
+  formatCongressionalDistrict,
+  formatStateKey,
+} = require('../lib/formatting-functions');
 
 String.prototype.toProperCase = function () {
   return this.replace(/\w\S*/g, function(txt) {
@@ -14,41 +18,29 @@ String.prototype.toProperCase = function () {
 
 class User {
 
-  static formatDistrict(district) {
-    if (district.abr) {
-      let state = district.abr;
-      let districtNo = district.dis;
-      return `${state}-${parseInt(districtNo)}`;
-    }
-    if (district.split('-').length === 2) {
-      let districtNo = parseInt(district.split('-')[1]);
-      let stateAbr = district.split('-')[0].toUpperCase();
-      if ((districtNo || districtNo === 0) && stateAbr.match(/[A-Z]{2}/g)[0]) {
-        return `${stateAbr.match(/[A-Z]{2}/g)[0]}-${parseInt(district.split('-')[1])}`;
-      }
-    }
-    return false;
-  }
-
-  static checkUserCustomDistrictField(districts) {
-    let formattedDistricts;
+  static checkUserCustomDistrictField(districts, email) {
+    let formattedDistricts = [];
     try {
       districts = districts.replace(/[=>]{2}/g, ':');
     } catch (e) {
-      console.log(e, districts);
+      console.log(e, districts, email);
     }
     if (districts.split('[').length > 1) {
       try {
         districts = JSON.parse(districts);
       } catch (e) {
-        console.log(e, districts);
+        console.log(e, email);
       }
     } 
     
     if (typeof districts === 'string') {
-      formattedDistricts = districts.split('-').length === 2 ? [User.formatDistrict(districts)] : [];
+      if (districts.split(', ').length > 1) {
+        formattedDistricts = filter(map(districts.split(', '), formatCongressionalDistrict), (ele) => !!ele);
+      } else if (districts.split('-').length === 2) {
+        formattedDistricts = [formatCongressionalDistrict(districts)];
+      }
     } else if (typeof districts === 'object') {
-      formattedDistricts = filter(map(districts, User.formatDistrict), (ele) => !!ele );
+      formattedDistricts = filter(map(districts, formatCongressionalDistrict), (ele) => !!ele );
     }
     return formattedDistricts;
   }
@@ -61,7 +53,6 @@ class User {
     this.zip =
       opts.postal_addresses[0].postal_code ? opts.postal_addresses[0].postal_code.toString(): false;
     this.state = opts.postal_addresses[0].region || false;
-    this.districts = opts.custom_fields.districts || [];
     this.lat = opts.postal_addresses[0].location.latitude || false;
     this.lng = opts.postal_addresses[0].location.longitude || false;
     this.created_date = opts.created_date;
@@ -72,12 +63,6 @@ class User {
       opts.custom_fields.NoOptIn === 'Y') {
       this.include = false;
     }
-    if (opts.custom_fields && opts.custom_fields.districts) {
-      const { districts } = opts.custom_fields;    
-      this.districts = User.checkUserCustomDistrictField(districts);
-    } else {
-      this.districts = [];
-    }
 
     let primaryEmail = false;
     if (opts.email_addresses) {
@@ -87,6 +72,15 @@ class User {
         }
       });
       this.primaryEmail = primaryEmail;
+    }
+    if (opts.custom_fields && opts.custom_fields.districts) {
+      const {
+        districts,
+      } = opts.custom_fields;
+      this.districts = User.checkUserCustomDistrictField(districts, this.primaryEmail);
+      this.state = this.districts[0] ? this.districts[0].split('-')[0] : this.state;
+    } else {
+      this.districts = [];
     }
   }
 
@@ -235,6 +229,7 @@ class User {
             if (parseInt(ele.val()['dis']) || parseInt(ele.val()['dis']) === 0 ) {
               let district = ele.val()['abr'] + '-' + parseInt(ele.val()['dis']);
               user.districts.push(district);
+              user.state = ele.val()['abr'];
             } else {
               if (User.zipsNotInDatabase.indexOf(zip) < 0) {
                 User.zipsNotInDatabase.push(zip);
@@ -246,6 +241,92 @@ class User {
         sendEmail.user(user, 'zip lookup failed' + error);
         throw(error);
       });
+  }
+
+  lookupStateDistricts(zip, chamber) {
+    let user = this;
+    return firebasedb.ref(`state_zip_to_district_${chamber}/${this.state}/${this.zip}`).once('value')
+      .then((snapshot) => {
+        if (!snapshot.exists()) {
+          if (User.zipsNotInDatabase.indexOf(zip) < 0 &&
+              moment(user.created_date).isAfter(moment().subtract(7, 'days'))
+          ) {
+            User.zipsNotInDatabase.push(zip);
+          }
+        } else {
+          snapshot.forEach(function (ele) {
+            if (parseInt(ele.val()['dis']) || parseInt(ele.val()['dis']) === 0) {
+              let district = formatStateKey(ele.val()['abr'], ele.val()['dis'], chamber);
+              // let district = `${ele.val()['abr']}-${chamber}-${parseInt(ele.val()['dis'])}`;
+              user.stateDistricts.push(district);
+            }
+          });
+        }
+        return user;
+      }); 
+  }
+
+  getStateDistricts() {
+    let user = this;
+    user.stateDistricts = [];
+    if (!this.zip || !this.state) {
+      return Promise.resolve();
+    }
+    if (!includes(constants.STATE_LEGS, this.state)) {
+      return Promise.resolve();
+    }
+   
+    let zipMatch = this.zip.match(/\b\d{5}\b/g);
+    if (!zipMatch) {
+      return Promise.resolve();
+    }
+    let zip = zipMatch[0];
+    return firebasedb.ref(`state_zip_to_district_lower/${this.state}/${this.zip}`).once('value')
+      .then((snapshot) => {
+        if (!snapshot.exists()) {
+          if (User.zipsNotInDatabase.indexOf(zip) < 0 &&
+              moment(user.created_date).isAfter(moment().subtract(7, 'days'))
+          ) {
+            User.zipsNotInDatabase.push(zip);
+          }
+        } else {
+          snapshot.forEach(function (ele) {
+            if (parseInt(ele.val()['dis']) || parseInt(ele.val()['dis']) === 0) {
+              let district = `${ele.val()['abr']}-lower-${parseInt(ele.val()['dis'])}`;
+              user.stateDistricts.push(district);
+            }
+          });
+        }
+        return user;
+      }).then((user) => {
+        return firebasedb.ref(`state_zip_to_district_upper/${this.state}/${this.zip}`).once('value')
+          .then((snapshot) => {
+            if (!snapshot.exists()) {
+              if (User.zipsNotInDatabase.indexOf(zip) < 0 &&
+                moment(user.created_date).isAfter(moment().subtract(7, 'days'))
+              ) {
+                User.zipsNotInDatabase.push(zip);
+              }
+            } else {
+              snapshot.forEach(function (ele) {
+                if (parseInt(ele.val()['dis']) || parseInt(ele.val()['dis']) === 0) {
+                  let district = `${ele.val()['abr']}-upper-${parseInt(ele.val()['dis'])}`;
+                  user.stateDistricts.push(district);
+                }
+              });
+            }
+            return user;
+          });
+      }); 
+  }
+
+  getStateEvents() {
+    return this.stateDistricts.reduce((acc, district) => {
+      if (TownHall.stateEvents[district]){
+        acc = acc.concat(TownHall.stateEvents[district]);
+      }
+      return acc;
+    }, []);
   }
 
   getDataForUser() {
@@ -263,8 +344,9 @@ class User {
       }
     });
     let senateEvents = this.getSenateEvents();
-
+    let stateEvents = this.stateDistricts.length > 0 ? this.getSenateEvents() : [];
     allevents = senateEvents.length > 0 ? allevents.concat(senateEvents) : allevents;
+    allevents = stateEvents.length > 0 ? allevents.concat(stateEvents) : allevents;
     return allevents;
   }
 }

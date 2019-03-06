@@ -29,13 +29,11 @@ const getAllUsers = function(page){
   // get 25 users, then add them to the object under their district
   get25Users(path).then(function (returnedData) {
     var people = returnedData['_embedded']['osdi:people'];
-    if (Object.keys(people).length === 0) {
-      console.log('no users');
-      return;
+    if (Object.keys(people).length > 0) {
+      console.log('processing data');
+      processData(people);
     }
-    processData(people);
   
-    // if no more new pages, or we set a break point for testing
     if (process.env.NODE_ENV === 'dev') {
       console.log(returnedData['_links']['next']);
     }
@@ -54,7 +52,7 @@ const getAllUsers = function(page){
     }
   }).catch(function(error){
     console.error(error);
-    composeEmails.errorEmail('making people list ', `error:${error} path:${path}`);
+    composeEmails.errorEmail('getting people', `error:${error} path:${path}`);
   });
 };
 

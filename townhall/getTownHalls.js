@@ -1,5 +1,6 @@
 const firebasedb = require('../lib/setupFirebase');
 const TownHall = require('./townhall-model');
+const formattingFunctions = require('../lib/formatting-functions');
 
 module.exports = function(forceInclude){
   return firebasedb.ref('townHalls').once('value')
@@ -32,17 +33,31 @@ module.exports = function(forceInclude){
           snapshot.forEach(stateSnapshot => {
             stateSnapshot.forEach(ele => {
               const townHall = new TownHall(ele.val());
-              console.log('include?', townHall.include(), townHall.inNextWeek(), townHall.dateString);
+              const key = formattingFunctions.formatStateKey(townHall.state, townHall.district, townHall.chamber);
+              if (!key) {
+                console.log(ele.key)
+                return;
+              }
+              // console.log('include?', townHall.include(), townHall.inNextWeek(), townHall.dateString, key);
               if (
                 townHall.inNextWeek() &&
                   (townHall.include() || forceInclude) &&
                   townHall.state
               ) {
-                  console.log(TownHall.stateEvents);
-                  townHall.addToEventList(TownHall.stateEvents, townHall.state);
-
+                townHall.addToEventList(TownHall.stateEvents, key);
               }
-
+              if (!townHall.chamber) {
+                const chamberMap = {
+                  HD: 'lower',
+                  SD: 'upper',
+                };
+                const fixedChamber = chamberMap[townHall.district.match(/\w{2}/g)[0]];
+                if (fixedChamber === 'lower' || fixedChamber === 'upper') {
+                  firebasedb.ref(`state_townhalls/${stateSnapshot.key}/${townHall.eventId}`).update({
+                    chamber: fixedChamber,
+                  });
+                }
+              }
             });
           });
         });

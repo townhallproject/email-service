@@ -9,14 +9,16 @@ module.exports = function (people) {
     .filter((user) => {
       return user.primaryEmail && user.include;
     }).forEach((user) => {
-
-      user.getDistricts().then( () => {
-        const allEvents = user.getDataForUser();
-        if (allEvents && allEvents.length > 0 ) {
-          user.composeEmail(allEvents);
-        }
-      }).catch(function (error) {
-        console.error('couldnt get district', error);
-      });
+      user.getDistricts()
+        .then(() => user.getStateDistricts())
+        .then(() => {
+          const allEvents = user.getDataForUser();
+          if (allEvents && allEvents.length > 0 ) {
+            console.log(`would be sending ${allEvents.length}`, user.districts, user.stateDistricts);
+            user.composeEmail(allEvents);
+          }
+        }).catch(function (error) {
+          console.error('couldnt get district', error);
+        });
     });
 };

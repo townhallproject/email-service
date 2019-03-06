@@ -110,7 +110,7 @@ constants.emailTo = function (fullname, email) {
   if (process.env.NODE_ENV === 'production') {
     return `${fullname} <${email}>`;
   }
-  return process.env.ME;
+  return process.env.GMAIL;
 };
 
 constants.compileMocReport = function (mocs){
