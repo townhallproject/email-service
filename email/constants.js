@@ -38,7 +38,7 @@ constants.QUICK_NOTES = `<p>Quick notes:</p>
       <li>Make sure somebody asks your Member of Congress when their next town hall is. Let them know you consider this part of their job.</li>
       <li>Take photos and video! Tweet us pictures at @townhallproject, post them on Instagram or Facebook, or email them to info@townhallproject.com. We’d love to see and hear how it went.</li>
       <li>Talk to the other people there with you. An in-person town hall is not just an opportunity to speak to your lawmaker but an opportunity to build community on common issues, to organize, and to take back our democracy.</li>
-      <li>We also recommend Indivisible’s <a href="https://www.indivisible.org/resource/successful-town-hall-tips/">How to Have a Succesful Town Hall guide.</a></li>
+      <li>We also recommend Indivisible’s <a href="https://indivisible.org/resource/missing-members-congress-action-plan">How to Have a Successful Town Hall guide.</a></li>
     </ul>
   <p>Thank you for your support. <strong>Stand up. Speak out.</strong></p>
 
@@ -64,7 +64,7 @@ constants.QUICK_NOTES_THFOL = `<p>Quick notes:</p>
       <li>Make sure somebody asks your Member of Congress when their next town hall is. Let them know you consider this part of their job.</li>
       <li>Take photos and video! Tweet us pictures at @townhallproject, post them on Instagram or Facebook, or email them to info@townhallproject.com. We’d love to see and hear how it went.</li>
       <li>Talk to the other people there with you. An in-person town hall is not just an opportunity to speak to your lawmaker but an opportunity to build community on common issues, to organize, and to take back our democracy.</li>
-      <li>We also recommend Indivisible’s <a href="https://www.indivisible.org/resource/successful-town-hall-tips/">How to Have a Succesful Town Hall guide.</a></li>
+      <li>We also recommend Indivisible’s <a href="https://indivisible.org/resource/missing-members-congress-action-plan">How to Have a Successful Town Hall guide.</a></li>
     </ul>
   <p>Thank you for your support. <strong>Stand up. Speak out.</strong></p>
 
