@@ -38,9 +38,8 @@ module.exports = function(forceInclude){
                   (townHall.include() || forceInclude) &&
                   townHall.state
               ) {
-                  console.log(TownHall.stateEvents);
-                  townHall.addToEventList(TownHall.stateEvents, townHall.state);
-
+                console.log(TownHall.stateEvents);
+                townHall.addToEventList(TownHall.stateEvents, townHall.state);
               }
 
             });
