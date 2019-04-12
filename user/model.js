@@ -46,7 +46,6 @@ class User {
   }
 
   constructor(opts) {
-
     this.firstname = opts.given_name ? opts.given_name.trim().toProperCase(): false;
     this.lastname = opts.family_name ? opts.family_name.trim().toProperCase(): false;
 
@@ -319,17 +318,11 @@ class User {
       }); 
   }
 
-  getStateEvents() {
-    console.log('getting state events', this.stateDistricts, this.stateDistricts.reduce((acc, district) => {
-      if (TownHall.stateEvents[district]) {
-        acc = acc.concat(TownHall.stateEvents[district]);
-      }
-      return acc;
-    }, []));
-    
+  getStateEvents(testEvents) {
+    const eventsToCheck = testEvents || TownHall.stateEvents;
     return this.stateDistricts.reduce((acc, district) => {
-      if (TownHall.stateEvents[district]){
-        acc = acc.concat(TownHall.stateEvents[district]);
+      if (eventsToCheck[district]) {
+        acc = acc.concat(eventsToCheck[district]);
       }
       return acc;
     }, []);
