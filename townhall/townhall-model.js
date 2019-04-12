@@ -173,7 +173,7 @@ class TownHall{
   }
 
   incrementSentNumber() {
-    const countRef = firebasedb.ref(`townHallIds/${this.eventId}`);
+    const countRef = firebasedb.ref(`townHallIds/${this.eventId}/number_emails_sent`);
     return countRef.transaction(function (current_value) {
       return (current_value || 0) + 1;
     });
