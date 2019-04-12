@@ -55,7 +55,7 @@ describe('constants', () => {
 
     test('if not production returns me', () => {
       process.env.NODE_ENV = 'dev';
-      process.env.ME = 'me';
+      process.env.GMAIL = 'me';
       let result = constants.emailTo();
       expect(result).toEqual('me');
     });
