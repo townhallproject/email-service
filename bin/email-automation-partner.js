@@ -98,8 +98,11 @@ firebasedb.ref('subscribers/').once('value').then(subscribers => {
           townHallsToSend[key] = TownHall.stateEvents[key];
         }
       }
-      console.log('sending subscribers emails', map(townHallsToSend, (ele, key) => key), subscriber.email);
-      Press.composeEmail(townHallsToSend, subscriber.name, subscriber.email);
+      const sendTo = process.env.NODE_ENV === 'production' ? subscriber.email : process.env.GMAIL;
+      if (townHallsToSend) {
+        console.log('sending subscribers emails', map(townHallsToSend, (ele, key) => key), subscriber.email);
+        Press.composeEmail(townHallsToSend, subscriber.name, sendTo);
+      }
     });
   });
 });
