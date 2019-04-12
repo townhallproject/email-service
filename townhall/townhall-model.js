@@ -36,7 +36,7 @@ class TownHall{
       if (townhallDay.isBefore(dateToday)) {
         // in past
         if (include) {
-          TownHall.prints.inPast.push(`<li>${townhall.Date}</li>`);
+          TownHall.prints.inPast.push(`<li>${townhall.dateString}</li>`);
         }
         return false;
       }
@@ -44,20 +44,20 @@ class TownHall{
         // not in the next week
         if (townhallDay.isAfter(nextWeeklyEmail)) {
           if (include) {
-            TownHall.prints.notInNextWeek.push(`<li>${townhall.Date}</li>`);
+            TownHall.prints.notInNextWeek.push(`<li>${townhall.dateString}</li>`);
           }
           return false;
         }
         if (moment(townhall.lastUpdated).isBetween(lastweekly, nextWeeklyEmail, '[)') && moment().diff(moment(townhall.lastUpdated), 'h') < 24) {
           // if not Thursday, is the event new since last emailed?
-          TownHall.prints.changedToday.push(`<li>${townhall.Date}, ${townhall.meetingType}, include? ${include}</li>`);
+          TownHall.prints.changedToday.push(`<li>${townhall.dateString}, ${townhall.meetingType}, include? ${include}</li>`);
           return true;
         }
       }
       // if Thursday
       if ((today === constants.BIG_DAY) && (townhallDay.isBetween(dateToday.add(5, 'hours'), nextWeeklyEmail, '(]'))) {
         if (include) {
-          TownHall.prints.isThursday.push(`<li>${townhall.Date}}</li>`);
+          TownHall.prints.isThursday.push(`<li>${townhall.dateString}}</li>`);
         }
         return true;
       } else
@@ -104,8 +104,6 @@ class TownHall{
       date = this.repeatingEvent;
     }  else if (this.dateString) {
       date = this.dateString;
-    } else {
-      date = this.Date;
     }
     if (this.meetingType === 'Tele-Town Hall') {
       location = this.phoneNumber;
