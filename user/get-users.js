@@ -15,7 +15,7 @@ const get25Users = function(path) {
         data = JSON.parse(res.text);
         return (data);
       } catch (e) {
-        console.log(e);
+        console.log('ERROR GETTING BATCH USERS', e);
         throw (e);
       }
     });
@@ -30,7 +30,6 @@ const getAllUsers = function(page){
   get25Users(path).then(function (returnedData) {
     var people = returnedData['_embedded']['osdi:people'];
     if (Object.keys(people).length > 0) {
-      console.log('processing data');
       processData(people);
     }
   
@@ -51,7 +50,7 @@ const getAllUsers = function(page){
       }
     }
   }).catch(function(error){
-    console.error(error);
+    console.error('ERROR SENDING USER REQUEST', error);
     composeEmails.errorEmail('getting people', `error:${error} path:${path}`);
   });
 };

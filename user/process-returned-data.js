@@ -14,7 +14,6 @@ module.exports = function (people) {
         .then(() => {
           const allEvents = user.getDataForUser();
           if (allEvents && allEvents.length > 0 ) {
-            console.log(`would be sending ${allEvents.length}`, user.districts, user.stateDistricts);
             user.composeEmail(allEvents);
           }
         }).catch(function (error) {

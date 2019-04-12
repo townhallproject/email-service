@@ -92,7 +92,7 @@ class User {
   }
 
   // composes email using the list of events
-  composeEmail(allevents){
+  composeEmail(allEvents){
     let username;
     let fullname;
     let user = this;
@@ -108,11 +108,11 @@ class User {
       fullname = '';
     }
 
-    let isTHFOL = find(allevents, {iconFlag : 'mfol'});
+    let isTHFOL = find(allEvents, {iconFlag : 'mfol'});
 
     let htmltext = isTHFOL ? constants.introTHFOL(username): constants.intro(username);
     
-    allevents.forEach(function(townhall){
+    allEvents.forEach(function (townhall) {
       var townhallHtml = townhall.emailText();
       htmltext = htmltext + townhallHtml;
     });
@@ -130,7 +130,7 @@ class User {
     User.sentEmails.push(user.primaryEmail);
     setTimeout(function () {
       if(process.env.NODE_ENV === 'dev'){
-        console.log('queuing', user.primaryEmail);
+        console.log('queuing', user.primaryEmail, data.to);
       }
       sendEmail.user(user, data);
     }, 1000 * (User.sentEmails.length));
@@ -257,7 +257,6 @@ class User {
           snapshot.forEach(function (ele) {
             if (parseInt(ele.val()['dis']) || parseInt(ele.val()['dis']) === 0) {
               let district = formatStateKey(ele.val()['abr'], ele.val()['dis'], chamber);
-              // let district = `${ele.val()['abr']}-${chamber}-${parseInt(ele.val()['dis'])}`;
               user.stateDistricts.push(district);
             }
           });
@@ -321,6 +320,13 @@ class User {
   }
 
   getStateEvents() {
+    console.log('getting state events', this.stateDistricts, this.stateDistricts.reduce((acc, district) => {
+      if (TownHall.stateEvents[district]) {
+        acc = acc.concat(TownHall.stateEvents[district]);
+      }
+      return acc;
+    }, []));
+    
     return this.stateDistricts.reduce((acc, district) => {
       if (TownHall.stateEvents[district]){
         acc = acc.concat(TownHall.stateEvents[district]);
@@ -344,7 +350,7 @@ class User {
       }
     });
     let senateEvents = this.getSenateEvents();
-    let stateEvents = this.stateDistricts.length > 0 ? this.getSenateEvents() : [];
+    let stateEvents = this.stateDistricts.length > 0 ? this.getStateEvents() : [];
     allevents = senateEvents.length > 0 ? allevents.concat(senateEvents) : allevents;
     allevents = stateEvents.length > 0 ? allevents.concat(stateEvents) : allevents;
     return allevents;
