@@ -1,6 +1,6 @@
 const constants = {};
 
-constants.BIG_DAY = 4; //Thursday
+constants.BIG_DAY = 3; // wednesday
 constants.STATE_LEGS = ['CO', 'AZ', 'NC', 'OR', 'VA'];
 
 constants.intro = function(username){
