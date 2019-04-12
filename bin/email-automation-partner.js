@@ -2,6 +2,8 @@
 require('dotenv').load();
 const find = require('lodash').find;
 const indexOf = require('lodash').indexOf;
+const map = require('lodash').map;
+
 const firebasedb = require('../lib/setupFirebase');
 const TownHall = require('../townhall/townhall-model.js');
 const getTownHalls = require('../townhall/getTownHalls');
@@ -80,17 +82,27 @@ firebasedb.ref('subscribers/').once('value').then(subscribers => {
       const subscriber = subscriberRef.val();
       let townHallsToSend = {};
       for (const key of Object.keys(TownHall.townHallbyDistrict)) {
-        if (indexOf(subscriber.districts, key)) {
+        if (indexOf(subscriber.districts, key) >= 0) {
           townHallsToSend[key] = TownHall.townHallbyDistrict[key];
         }
       }
       for (const key of Object.keys(TownHall.senateEvents)) {
-        if (indexOf(subscriber.districts, key)) {
+        if (indexOf(subscriber.districts, key) >= 0) {
           townHallsToSend[key] = TownHall.townHallbyDistrict[key];
         }
       }
-      console.log('sending subscribers emails', townHallsToSend, subscriber.email);
-      Press.composeEmail(townHallsToSend, subscriber.name, subscriber.email);
+      for (const key of Object.keys(TownHall.stateEvents)) {
+        if (indexOf(subscriber.districts, key) >= 0 ) {
+          townHallsToSend[key] = TownHall.stateEvents[key];
+        } else if (indexOf(subscriber.districts, `${key.split('-')[0]}-state-events`) >= 0 ) {
+          townHallsToSend[key] = TownHall.stateEvents[key];
+        }
+      }
+      const sendTo = process.env.NODE_ENV === 'production' ? subscriber.email : process.env.GMAIL;
+      if (townHallsToSend) {
+        console.log('sending subscribers emails', map(townHallsToSend, (ele, key) => key), subscriber.email);
+        Press.composeEmail(townHallsToSend, subscriber.name, sendTo);
+      }
     });
   });
 });

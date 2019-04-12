@@ -7,7 +7,9 @@
     "test": "jest -i --coverage --forceExit",
     "lint": "eslint --fix .",
     "start": "node index.js",
-    "get-users": "node bin/email-automation-users.js"
+    "get-events": "node bin/get-events.js",
+    "users": "node bin/email-automation-users",
+    "subscribers": "node bin/email-automation-partner"
   },
   "repository": {
     "type": "git",
@@ -27,12 +29,12 @@
     "express-sessions": "^1.0.6",
     "firebase-admin": "^5.5.0",
     "geo-distance": "^0.1.2",
-    "mailgun-js": "^0.13.1",
+    "mailgun-js": "^0.22.0",
     "moment": "^2.21.0",
-    "npm": "^6.1.0",
-    "request": "^2.83.0",
+    "npm": "^6.9.0",
+    "request": "^2.88.0",
     "superagent": "^3.8.2",
-    "twilio": "^3.9.3"
+    "twilio": "^3.30.0"
   },
   "devDependencies": {
     "eslint": "^4.11.0",

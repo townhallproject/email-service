@@ -10,6 +10,9 @@ module.exports = function(user) {
   for (const key of Object.keys(TownHall.senateEvents)) {
     districtreport = districtreport + `<li>District ${key}, No. of events: ${TownHall.senateEvents[key].length}</li>`;
   }
+  for (const key of Object.keys(TownHall.stateEvents)) {
+    districtreport = districtreport + `<li>District ${key}, No. of events: ${TownHall.stateEvents[key].length}</li>`;
+  }
   let badZipsReport = 'Users with bad zips: ';
   User.zipErrors.forEach(function(person){
     badZipsReport = badZipsReport + person.userReport();

@@ -1,6 +1,7 @@
 const moment = require('moment');
 
 const constants = require('../email/constants');
+const firebasedb = require('../lib/setupFirebase');
 
 class TownHall{
   constructor(opts){
@@ -145,9 +146,9 @@ class TownHall{
     } else {
       updated = '';
     }
-    if (this.chamber === 'upper'){
+    if (this.chamber === 'upper' && this.level === 'federal'){
       repinfo = '(Senate)';
-    } else if (this.district) {
+    } else if (this.state && this.district) {
       repinfo = `(${this.state}-${this.district})`;
     }
     let eventTemplate =
@@ -167,6 +168,13 @@ class TownHall{
         </section>
         </div>`;
     return eventTemplate;
+  }
+
+  incrementSentNumber() {
+    const countRef = firebasedb.ref(`townHallIds/${this.eventId}/number_emails_sent`);
+    return countRef.transaction(function (current_value) {
+      return (current_value || 0) + 1;
+    });
   }
 
   addToEventList(eventList, key){

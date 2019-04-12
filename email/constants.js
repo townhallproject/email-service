@@ -1,6 +1,7 @@
 const constants = {};
 
-constants.BIG_DAY = 4; //Thursday
+constants.BIG_DAY = 3; // wednesday
+constants.STATE_LEGS = ['CO', 'AZ', 'NC', 'OR', 'VA'];
 
 constants.intro = function(username){
   return `<body style="color:#1E2528; font-size:14px; line-height: 27px;">Hi ${username} - ` +
@@ -109,7 +110,7 @@ constants.emailTo = function (fullname, email) {
   if (process.env.NODE_ENV === 'production') {
     return `${fullname} <${email}>`;
   }
-  return process.env.ME;
+  return process.env.GMAIL;
 };
 
 constants.compileMocReport = function (mocs){
