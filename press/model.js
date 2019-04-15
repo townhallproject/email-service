@@ -10,7 +10,7 @@ class Press {
     }
   }
 
-  static upbackEvents(key, townhalls) {
+  static unpackEvents(key, townhalls) {
     console.log(key, townhalls);
     if(!townhalls){
       return '';
@@ -30,7 +30,7 @@ class Press {
   static composeEmail(eventsToSend, name, emailTo) {
     let htmltext = '';
     for (const key of Object.keys(eventsToSend)) {
-      htmltext += Press.upbackEvents(key, eventsToSend[key]);
+      htmltext += Press.unpackEvents(key, eventsToSend[key]);
     }
 
     let data = {
