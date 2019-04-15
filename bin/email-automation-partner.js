@@ -25,8 +25,7 @@ PartnerEmail.prototype.composeEmail = function(district, events){
   let htmltext = isTHFOL ? constants.introTHFOL(username) : constants.intro(username);
   // let htmltext = constants.intro(username);
   events.forEach(function(townhall){
-    if (!townhall.emailText()) {
-    } else {
+    if (townhall.emailText()) {
       let townhallHtml = townhall.emailText();
       htmltext = htmltext + townhallHtml;
     }
@@ -60,18 +59,18 @@ PartnerEmail.eventReport = function(){
   sendEmail.send(data);
 };
 
-// getTownHalls().then(function(){
-//   console.log('got events');
-//   PartnerEmail.eventReport();
-//   for (const key of Object.keys(TownHall.townHallbyDistrict)) {
-//     let thispartnerEmail = new PartnerEmail();
-//     thispartnerEmail.composeEmail(key, TownHall.townHallbyDistrict[key]);
-//   }
-//   for (const key of Object.keys(TownHall.senateEvents)) {
-//     let newuser = new PartnerEmail();
-//     newuser.composeEmail(key, TownHall.senateEvents[key]);
-//   }
-// });
+getTownHalls().then(function(){
+  console.log('got events');
+  PartnerEmail.eventReport();
+  for (const key of Object.keys(TownHall.townHallbyDistrict)) {
+    let thispartnerEmail = new PartnerEmail();
+    thispartnerEmail.composeEmail(key, TownHall.townHallbyDistrict[key]);
+  }
+  for (const key of Object.keys(TownHall.senateEvents)) {
+    let newuser = new PartnerEmail();
+    newuser.composeEmail(key, TownHall.senateEvents[key]);
+  }
+});
 
 
 firebasedb.ref('subscribers/').once('value').then(subscribers => {
