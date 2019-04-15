@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 require('dotenv').load();
 const find = require('lodash').find;
-const indexOf = require('lodash').indexOf;
+const includes = require('lodash').includes;
 const map = require('lodash').map;
 
 const firebasedb = require('../lib/setupFirebase');
@@ -26,7 +26,6 @@ PartnerEmail.prototype.composeEmail = function(district, events){
   // let htmltext = constants.intro(username);
   events.forEach(function(townhall){
     if (!townhall.emailText()) {
-      console.log(townhall);
     } else {
       let townhallHtml = townhall.emailText();
       htmltext = htmltext + townhallHtml;
@@ -61,18 +60,18 @@ PartnerEmail.eventReport = function(){
   sendEmail.send(data);
 };
 
-getTownHalls().then(function(){
-  console.log('got events');
-  PartnerEmail.eventReport();
-  for (const key of Object.keys(TownHall.townHallbyDistrict)) {
-    let thispartnerEmail = new PartnerEmail();
-    thispartnerEmail.composeEmail(key, TownHall.townHallbyDistrict[key]);
-  }
-  for (const key of Object.keys(TownHall.senateEvents)) {
-    let newuser = new PartnerEmail();
-    newuser.composeEmail(key, TownHall.senateEvents[key]);
-  }
-});
+// getTownHalls().then(function(){
+//   console.log('got events');
+//   PartnerEmail.eventReport();
+//   for (const key of Object.keys(TownHall.townHallbyDistrict)) {
+//     let thispartnerEmail = new PartnerEmail();
+//     thispartnerEmail.composeEmail(key, TownHall.townHallbyDistrict[key]);
+//   }
+//   for (const key of Object.keys(TownHall.senateEvents)) {
+//     let newuser = new PartnerEmail();
+//     newuser.composeEmail(key, TownHall.senateEvents[key]);
+//   }
+// });
 
 
 firebasedb.ref('subscribers/').once('value').then(subscribers => {
@@ -81,26 +80,31 @@ firebasedb.ref('subscribers/').once('value').then(subscribers => {
     subscribers.forEach(subscriberRef => {
       const subscriber = subscriberRef.val();
       let townHallsToSend = {};
+      let send = false;
       for (const key of Object.keys(TownHall.townHallbyDistrict)) {
-        if (indexOf(subscriber.districts, key) >= 0) {
+        if (includes(subscriber.districts, key)) {
           townHallsToSend[key] = TownHall.townHallbyDistrict[key];
+          send = true;
         }
       }
       for (const key of Object.keys(TownHall.senateEvents)) {
-        if (indexOf(subscriber.districts, key) >= 0) {
-          townHallsToSend[key] = TownHall.townHallbyDistrict[key];
+        if (includes(subscriber.districts, key)) {
+          townHallsToSend[key] = TownHall.senateEvents[key];
+          send = true;
         }
       }
       for (const key of Object.keys(TownHall.stateEvents)) {
-        if (indexOf(subscriber.districts, key) >= 0 ) {
+        if (includes(subscriber.districts, key)) {
           townHallsToSend[key] = TownHall.stateEvents[key];
-        } else if (indexOf(subscriber.districts, `${key.split('-')[0]}-state-events`) >= 0 ) {
+          send = true;
+        } else if (includes(subscriber.districts, `${key.split('-')[0]}-state-events`)) {
           townHallsToSend[key] = TownHall.stateEvents[key];
+          send = true;
         }
       }
       const sendTo = process.env.NODE_ENV === 'production' ? subscriber.email : process.env.GMAIL;
-      if (townHallsToSend) {
-        console.log('sending subscribers emails', map(townHallsToSend, (ele, key) => key), subscriber.email);
+      if (send) {
+        console.log('sending subscribers emails', subscriber.email, sendTo);
         Press.composeEmail(townHallsToSend, subscriber.name, sendTo);
       }
     });
