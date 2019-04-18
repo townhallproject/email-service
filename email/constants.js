@@ -15,7 +15,6 @@ constants.introTHFOL = function (username) {
     '<p>If you are attending a <strong>Town Hall For Our Lives</strong> event, here is some material from other organizations that could be used to help spur conversation on this issue. Please consider these suggestions--Town Hall Project encourages an open, honest discussion in which all viewpoints feel welcome expressing their views: </p>' +
     '<ul style="list-style:none">' + 
     '<li><a href="https://marchforourlives.com/mission-statement/">March For Our Lives</a></li>' +
-    '<li><a href="https://www.indivisible.org/resource/town-hall-lives-sample-questions/">Indivisible</a></li>' + 
     '<li><a href="https://www.ofa.us/get-trained/toolkits-resources/gvp-questions/">Organizing For Action</a></li>' +   
     '</ul>' + 
     '<p>At the end of the day, this is you conversation.This moment belongs to you.</p>' +
@@ -39,7 +38,6 @@ constants.QUICK_NOTES = `<p>Quick notes:</p>
       <li>Make sure somebody asks your Member of Congress when their next town hall is. Let them know you consider this part of their job.</li>
       <li>Take photos and video! Tweet us pictures at @townhallproject, post them on Instagram or Facebook, or email them to info@townhallproject.com. We’d love to see and hear how it went.</li>
       <li>Talk to the other people there with you. An in-person town hall is not just an opportunity to speak to your lawmaker but an opportunity to build community on common issues, to organize, and to take back our democracy.</li>
-      <li>We also recommend Indivisible’s <a href="https://indivisible.org/resource/missing-members-congress-action-plan">How to Have a Successful Town Hall guide.</a></li>
     </ul>
   <p>Thank you for your support. <strong>Show up. Speak out.</strong></p>
 
@@ -65,7 +63,6 @@ constants.QUICK_NOTES_THFOL = `<p>Quick notes:</p>
       <li>Make sure somebody asks your Member of Congress when their next town hall is. Let them know you consider this part of their job.</li>
       <li>Take photos and video! Tweet us pictures at @townhallproject, post them on Instagram or Facebook, or email them to info@townhallproject.com. We’d love to see and hear how it went.</li>
       <li>Talk to the other people there with you. An in-person town hall is not just an opportunity to speak to your lawmaker but an opportunity to build community on common issues, to organize, and to take back our democracy.</li>
-      <li>We also recommend Indivisible’s <a href="https://indivisible.org/resource/missing-members-congress-action-plan">How to Have a Successful Town Hall guide.</a></li>
     </ul>
   <p>Thank you for your support. <strong>Show up. Speak out.</strong></p>
 
