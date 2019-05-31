@@ -1,4 +1,25 @@
-const TownHall = {};
+const TownHall = {
+  townHallbyDistrict: {
+    'CA-10' : [{
+      state: 'CA',
+      meetingType: 'Town Hall',
+    }],
+    'ME-10': [{
+      state: 'ME',
+      meetingType: 'Town Hall',
+    }],
+  },
+  senateEvents: {
+    'CA' : [{
+      state: 'CA',
+      meetingType: 'Town Hall',
+    }],
+    'OR': [{
+      state: 'OR',
+      meetingType: 'Town Hall',
+    }],
+  },
+};
 
 TownHall.stateEvents = {'OR-upper-18': [ {
   Location: 'Multnomah Arts Center ',
@@ -363,41 +384,6 @@ TownHall.stateEvents = {'OR-upper-18': [ {
   timeStart24: '09:00:00',
   timeZone: 'PDT',
   userID: 'W6MvZpOsb9bcaZCG5X6ifyUoR6z1',
-  yearMonthDay: '2019-04-13',
-  zoneString: 'America/Los_Angeles',
-}],
-'OR-upper-18': [ {
-  Location: 'Multnomah Arts Center ',
-  Member: 'Ginny Burdick',
-  Notes: '',
-  Time: '1:30 PM',
-  address: '7688 SW Capitol Hwy, Portland, OR 97219',
-  chamber: 'upper',
-  dateObj: 1555187400000,
-  dateString: 'Sat, Apr 13 2019',
-  dateValid: true,
-  displayName: 'Ginny Burdick',
-  district: 'SD-18',
-  enteredBy: 'SZxK525gVjSFxA4pXUIIOdYFTt33',
-  eventId: '-Lc6wZWNnX6wBc5FYcJV',
-  eventName: 'Town Hall at Multnomah Arts Center ',
-  iconFlag: 'in-person',
-  lastUpdated: 1554911628363,
-  lastUpdatedHuman: 'Wed Apr 10 2019',
-  lat: 45.4682223,
-  level: 'state',
-  link: 'https://twitter.com/SenBurdick/status/1113467604172103681',
-  linkName: 'Event Details',
-  lng: -122.7099031,
-  meetingType: 'Town Hall',
-  party: 'Democratic',
-  state: 'OR',
-  stateName: 'Oregon',
-  thp_id: 'OR-SD-18-00',
-  timeEnd: '3:00 PM',
-  timeEnd24: '15:00:00',
-  timeStart24: '13:30:00',
-  timeZone: 'PDT',
   yearMonthDay: '2019-04-13',
   zoneString: 'America/Los_Angeles',
 }],
