@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "9.x"
+  },
   "scripts": {
     "test": "jest -i --coverage --forceExit",
     "lint": "eslint --fix .",
