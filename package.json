@@ -12,7 +12,7 @@
     "start": "node index.js",
     "get-events": "node bin/get-events.js",
     "users": "node bin/email-automation-users",
-    "subscribers": "node bin/email-automation-partner"
+    "subscribers": "node bin/subscribers.js"
   },
   "repository": {
     "type": "git",

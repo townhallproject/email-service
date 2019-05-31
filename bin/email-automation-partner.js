@@ -1,14 +1,10 @@
 #!/usr/bin/env node
 require('dotenv').load();
 const find = require('lodash').find;
-const includes = require('lodash').includes;
-const map = require('lodash').map;
 
-const firebasedb = require('../lib/setupFirebase');
 const TownHall = require('../townhall/townhall-model.js');
 const getTownHalls = require('../townhall/getTownHalls');
 const constants = require('../email/constants');
-const Press = require('../press/model');
 const sendEmail = require('../lib/send-email');
 
 // unpacks data from action network
@@ -71,43 +67,5 @@ getTownHalls().then(function(){
     newuser.composeEmail(key, TownHall.senateEvents[key]);
   }
 });
-
-
-// firebasedb.ref('subscribers/').once('value').then(subscribers => {
-//   getTownHalls(true).then(function () {
-//     console.log('got events');
-//     subscribers.forEach(subscriberRef => {
-//       const subscriber = subscriberRef.val();
-//       let townHallsToSend = {};
-//       let send = false;
-//       for (const key of Object.keys(TownHall.townHallbyDistrict)) {
-//         if (includes(subscriber.districts, key)) {
-//           townHallsToSend[key] = TownHall.townHallbyDistrict[key];
-//           send = true;
-//         }
-//       }
-//       for (const key of Object.keys(TownHall.senateEvents)) {
-//         if (includes(subscriber.districts, key)) {
-//           townHallsToSend[key] = TownHall.senateEvents[key];
-//           send = true;
-//         }
-//       }
-//       for (const key of Object.keys(TownHall.stateEvents)) {
-//         if (includes(subscriber.districts, key)) {
-//           townHallsToSend[key] = TownHall.stateEvents[key];
-//           send = true;
-//         } else if (includes(subscriber.districts, `${key.split('-')[0]}-state-events`)) {
-//           townHallsToSend[key] = TownHall.stateEvents[key];
-//           send = true;
-//         }
-//       }
-//       const sendTo = process.env.NODE_ENV === 'production' ? subscriber.email : process.env.GMAIL;
-//       if (send) {
-//         console.log('sending subscribers emails', subscriber.email, sendTo);
-//         Press.composeEmail(townHallsToSend, subscriber.name, sendTo);
-//       }
-//     });
-//   });
-// });
 
 module.exports = PartnerEmail;
