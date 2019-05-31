@@ -35,7 +35,7 @@ module.exports = function(forceInclude){
               const townHall = new TownHall(ele.val());
               const key = formattingFunctions.formatStateKey(townHall.state, townHall.district, townHall.chamber);
               if (!key) {
-                console.log('not able to make state key', ele.key)
+                console.log('not able to make state key', ele.key);
                 return;
               }
               // console.log('include?', townHall.include(), townHall.inNextWeek(), townHall.dateString, key);
