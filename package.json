@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "engines": {
-    "node": "9.x"
+    "node": "10.x"
   },
   "scripts": {
     "test": "jest -i --coverage --forceExit",
