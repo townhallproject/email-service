@@ -5,13 +5,12 @@ const constants = require('../email/constants');
 
 class Press {
   constructor(opts) {
-    for (let keys in opts) {
-      this[keys] = opts[keys];
-    }
+    this.email = opts.email;
+    this.name = opts.name || null;
+    this.districts = opts.districts;
   }
 
   static unpackEvents(key, townhalls) {
-    console.log(key, townhalls);
     if(!townhalls){
       return '';
     }
@@ -40,6 +39,28 @@ class Press {
       subject: 'Town halls in the next week',
     };
     sendEmail.send(data);
+  }
+
+  getEventsToSend(TownHall) {
+    const townHallsToSend = {};
+    for (const key of Object.keys(TownHall.townHallbyDistrict)) {
+      if (this.districts.indexOf(key) >= 0 ) {
+        townHallsToSend[key] = TownHall.townHallbyDistrict[key];
+      }
+    }
+    for (const key of Object.keys(TownHall.senateEvents)) {
+      if (this.districts.indexOf(key) >= 0) {
+        townHallsToSend[key] = TownHall.senateEvents[key];
+      }
+    }
+    for (const key of Object.keys(TownHall.stateEvents)) {
+      if (this.districts.indexOf(key) >= 0) {
+        townHallsToSend[key] = TownHall.stateEvents[key];
+      } else if (this.districts.indexOf(`${key.split('-')[0]}-state-events`) >= 0) {
+        townHallsToSend[key] = TownHall.stateEvents[key];
+      }
+    }
+    return townHallsToSend;
   }
 }
 
