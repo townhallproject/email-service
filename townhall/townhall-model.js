@@ -153,7 +153,7 @@ class TownHall{
     }
     let eventTemplate =
     `<div style="box-shadow:0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); padding:20px; margin-bottom:10px;">
-    <strong style="color:#0d4668">${this.Member} ${repinfo}, <span style="color:#ff4741">${this.meetingType}</span></strong>
+    <strong style="color:#0d4668">${this.displayName} ${repinfo}, <span style="color:#ff4741">${this.meetingType}</span></strong>
     <small><em>${updated}</em></small>
     <section style="margin-left:10px; margin-bottom: 20px; line-height: 20px">
     <ul>
