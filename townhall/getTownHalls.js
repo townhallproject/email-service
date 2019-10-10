@@ -6,7 +6,7 @@ module.exports = function(forceInclude){
   return firebasedb.ref('townHalls').once('value')
     .then(function (snapshot) {
       snapshot.forEach(function(ele) {
-        var townhall = new TownHall(ele.val());
+        var townhall = new TownHall(ele.val(), 'federal');
 
         if (
           townhall.inNextWeek() &&
@@ -32,10 +32,10 @@ module.exports = function(forceInclude){
         .then(snapshot => {
           snapshot.forEach(stateSnapshot => {
             stateSnapshot.forEach(ele => {
-              const townHall = new TownHall(ele.val());
+              const townHall = new TownHall(ele.val(), 'state');
               const key = formattingFunctions.formatStateKey(townHall.state, townHall.district, townHall.chamber);
               if (!key) {
-                console.log('not able to make state key', ele.key);
+                console.log('not able to make state key', ele.key, townHall.state, townHall.district, townHall.chamber);
                 return;
               }
               // console.log('include?', townHall.include(), townHall.inNextWeek(), townHall.dateString, key);
@@ -44,6 +44,7 @@ module.exports = function(forceInclude){
                   (townHall.include() || forceInclude) &&
                   townHall.state
               ) {
+                console.log('force include', forceInclude)
                 townHall.addToEventList(TownHall.stateEvents, key);
               }
               if (!townHall.chamber) {

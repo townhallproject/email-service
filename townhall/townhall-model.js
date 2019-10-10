@@ -4,9 +4,12 @@ const constants = require('../email/constants');
 const firebasedb = require('../lib/setupFirebase');
 
 class TownHall{
-  constructor(opts){
+  constructor(opts, level){
     for (let keys in opts) {
       this[keys] = opts[keys];
+    }
+    if (level) {
+      this.level = level;
     }
   }
 
@@ -31,7 +34,6 @@ class TownHall{
       nextWeeklyEmail = moment(lastweekly).add(7, 'days');
     }
     let include = townhall.include();
-
     if (townhall.dateObj) {
       if (townhallDay.isBefore(dateToday)) {
         // in past
@@ -54,8 +56,9 @@ class TownHall{
           return true;
         }
       }
-      // if Thursday
+      // if Wednesday
       if ((today === constants.BIG_DAY) && (townhallDay.isBetween(dateToday.add(5, 'hours'), nextWeeklyEmail, '(]'))) {
+        console.log('in next week')
         if (include) {
           TownHall.prints.isThursday.push(`<li>${townhall.dateString}}</li>`);
         }
@@ -99,6 +102,7 @@ class TownHall{
     let address;
     let updated;
     let title;
+    let urlParams;
     let repinfo = '';
     if (this.repeatingEvent) {
       date = this.repeatingEvent;
@@ -151,6 +155,13 @@ class TownHall{
     } else if (this.state && this.district) {
       repinfo = `(${this.state}-${this.district})`;
     }
+    if (this.level === 'federal') {
+      urlParams = `?eventId=${this.eventId}`;
+    } else if (this.level === 'state' && this.stateName) {
+      urlParams = `${this.stateName.toLowerCase()}/?eventId=${this.eventId}&state=${this.state}`;
+    } else  if (this.state) {
+      urlParams = `?eventId=${this.eventId}&state=${this.state}`;
+    }
     let eventTemplate =
     `<div style="box-shadow:0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); padding:20px; margin-bottom:10px;">
     <strong style="color:#0d4668">${this.displayName} ${repinfo}, <span style="color:#ff4741">${this.meetingType}</span></strong>
@@ -162,7 +173,7 @@ class TownHall{
           ${time}
           ${location}
           ${address}
-          <li><a href="https://townhallproject.com/?eventId=${this.eventId}">Link on townhallproject site</a></br>
+          <li><a href="https://townhallproject.com/${urlParams}">Link on townhallproject site</a></br>
           <p>${notes}</p>
         </ul>
         </section>
