@@ -74,7 +74,7 @@ describe('emailText', () => {
 <li>1:30PM,PDT</li>
 <li>MultnomahArtsCenter</li>
 <li>7688SWCapitolHwy,Portland,OR97219</li>
-<li><ahref="https://townhallproject.com/oregon/?eventId=-Lc6wZWNnX6wBc5FYcJV&state=OR">Linkontownhallprojectsite</a></br>
+<li><ahref="https://townhallproject.com/oregon?eventId=-Lc6wZWNnX6wBc5FYcJV&state=OR">Linkontownhallprojectsite</a></br>
 <p></p>
 </ul>
 </section>

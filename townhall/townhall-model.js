@@ -158,7 +158,7 @@ class TownHall{
     if (this.level === 'federal') {
       urlParams = `?eventId=${this.eventId}`;
     } else if (this.level === 'state' && this.stateName) {
-      urlParams = `${this.stateName.toLowerCase()}/?eventId=${this.eventId}&state=${this.state}`;
+      urlParams = `${this.stateName.toLowerCase()}?eventId=${this.eventId}&state=${this.state}`;
     } else  if (this.state) {
       urlParams = `?eventId=${this.eventId}&state=${this.state}`;
     }
