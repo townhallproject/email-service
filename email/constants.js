@@ -15,7 +15,6 @@ constants.introTHFOL = function (username) {
     '<p>If you are attending a <strong>Town Hall For Our Lives</strong> event, here is some material from other organizations that could be used to help spur conversation on this issue. Please consider these suggestions--Town Hall Project encourages an open, honest discussion in which all viewpoints feel welcome expressing their views: </p>' +
     '<ul style="list-style:none">' + 
     '<li><a href="https://marchforourlives.com/mission-statement/">March For Our Lives</a></li>' +
-    '<li><a href="https://www.indivisible.org/resource/town-hall-lives-sample-questions/">Indivisible</a></li>' + 
     '<li><a href="https://www.ofa.us/get-trained/toolkits-resources/gvp-questions/">Organizing For Action</a></li>' +   
     '</ul>' + 
     '<p>At the end of the day, this is you conversation.This moment belongs to you.</p>' +
@@ -24,11 +23,12 @@ constants.introTHFOL = function (username) {
 
 constants.LEGEND = `
               <small>
-                  <div style="padding:0; "><span style="color:#ff4741">Town Hall</span><span> - A forum where members of Congress give updates on the current affairs of Congress and answer questions from constituents.</span></div>
-                  <div style="padding:0; "><span style="color:#ff4741">Empty Chair Town Hall</span><span> - A citizen-organized town hall held with or without the invited lawmaker.</span></div>
+                  <div style="padding:0; "><span style="color:#ff4741">Town Hall</span><span> - An open forum where lawmakers give legislative updates and answer unfiltered questions from constituents.</span></div>
+                  <div style="padding:0; "><span style="color:#ff4741">Empty Chair Town Hall</span><span> - A constituent-organized town hall held with or without the invited lawmaker.</span></div>
+                  <div style="padding:0; "><span style="color:#ff4741">Office Hours</span><span> - Opportunity to meet and question a lawmaker's staff. Usually held in district offices but sometimes are "mobile office hours."</span></div>
                   <div style="padding:0; "><span style="color:#ff4741">Tele-Town Hall Meeting</span><span> - A town hall conducted by conference call or online.</span></div>
-                  <div style="padding:0; "><span style="color:#ff4741">Campaign Town Hall</span><span> - A town hall organized by a candidate for office - whether an incumbent or challenger. (Town Hall Project includes these events as a public resource--not to endorse a particular candidate or campaign)</span></div>
-                  <div style="padding:0; "><span style="color:#ff4741">Other</span><span> - Other opportunities to engage with members of Congress or their staff. Please read details carefully—events in this category can vary.</span></div>
+                  <div style="padding:0; "><span style="color:#ff4741">Campaign Town Hall</span><span> - A town hall organized by a candidate for office - whether an incumbent or challenger. (Town Hall Project includes these events as a public resource--not to endorse a particular candidate or campaign).</span></div>
+                  <div style="padding:0; "><span style="color:#ff4741">Ticketed Event</span><span> - Paid events. Typically fundraisers. (Town Hall Project occasionally includes these events as a public resource--not to endorse a particular candidate or campaign).</span></div>
               </small>`;
 
 constants.QUICK_NOTES = `<p>Quick notes:</p>
@@ -39,14 +39,13 @@ constants.QUICK_NOTES = `<p>Quick notes:</p>
       <li>Make sure somebody asks your Member of Congress when their next town hall is. Let them know you consider this part of their job.</li>
       <li>Take photos and video! Tweet us pictures at @townhallproject, post them on Instagram or Facebook, or email them to info@townhallproject.com. We’d love to see and hear how it went.</li>
       <li>Talk to the other people there with you. An in-person town hall is not just an opportunity to speak to your lawmaker but an opportunity to build community on common issues, to organize, and to take back our democracy.</li>
-      <li>We also recommend Indivisible’s <a href="https://indivisible.org/resource/missing-members-congress-action-plan">How to Have a Successful Town Hall guide.</a></li>
     </ul>
   <p>Thank you for your support. <strong>Show up. Speak out.</strong></p>
 
-  <p>Nathan</p>
+  <p>Zoë</p>
   <section style="line-height: 16px; margin-bottom:25px;">
-  Nathan Williams<br>
-  Managing Director<br>
+  Zoë Tapert<br>
+  Organizing Director<br>
   Town Hall Project<br>
   townhallproject.com<br>
   </section>
@@ -65,7 +64,6 @@ constants.QUICK_NOTES_THFOL = `<p>Quick notes:</p>
       <li>Make sure somebody asks your Member of Congress when their next town hall is. Let them know you consider this part of their job.</li>
       <li>Take photos and video! Tweet us pictures at @townhallproject, post them on Instagram or Facebook, or email them to info@townhallproject.com. We’d love to see and hear how it went.</li>
       <li>Talk to the other people there with you. An in-person town hall is not just an opportunity to speak to your lawmaker but an opportunity to build community on common issues, to organize, and to take back our democracy.</li>
-      <li>We also recommend Indivisible’s <a href="https://indivisible.org/resource/missing-members-congress-action-plan">How to Have a Successful Town Hall guide.</a></li>
     </ul>
   <p>Thank you for your support. <strong>Show up. Speak out.</strong></p>
 
