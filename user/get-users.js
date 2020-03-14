@@ -49,7 +49,7 @@ const getAllUsers = function(page){
         getAllUsers(nextPage);
       }
     }
-  }).catch(function(error){
+  }).catch(function(error) {
     console.error('ERROR SENDING USER REQUEST', error);
     composeEmails.errorEmail('getting people', `error:${error} path:${path}`);
   });
