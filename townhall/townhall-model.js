@@ -13,8 +13,8 @@ class TownHall{
     }
   }
 
-  inNextWeek(){
-    let dateToday = moment();
+  inNextWeek(testDay){
+    let dateToday = testDay || moment();
     let townhall = this;
     let bigDayDate = moment(dateToday);
     let thisBigDay = bigDayDate.day(constants.BIG_DAY).endOf('day');
@@ -50,15 +50,16 @@ class TownHall{
           }
           return false;
         }
-        if (moment(townhall.lastUpdated).isBetween(lastweekly, nextWeeklyEmail, '[)') && moment().diff(moment(townhall.lastUpdated), 'h') < 24) {
-          // if not Thursday, is the event new since last emailed?
+        if (moment(townhall.lastUpdated).isBetween(lastweekly, nextWeeklyEmail, '[)') && 
+            dateToday.diff(moment(townhall.lastUpdated), 'h') < 24) {
+          // if not big day, is the event new since last emailed?
           TownHall.prints.changedToday.push(`<li>${townhall.dateString}, ${townhall.meetingType}, include? ${include}</li>`);
           return true;
         }
+        return false;
       }
       // if Wednesday
       if ((today === constants.BIG_DAY) && (townhallDay.isBetween(dateToday.add(5, 'hours'), nextWeeklyEmail, '(]'))) {
-        console.log('in next week');
         if (include) {
           TownHall.prints.isThursday.push(`<li>${townhall.dateString}}</li>`);
         }
