@@ -23,11 +23,12 @@ constants.introTHFOL = function (username) {
 
 constants.LEGEND = `
               <small>
-                  <div style="padding:0; "><span style="color:#ff4741">Town Hall</span><span> - A forum where members of Congress give updates on the current affairs of Congress and answer questions from constituents.</span></div>
-                  <div style="padding:0; "><span style="color:#ff4741">Empty Chair Town Hall</span><span> - A citizen-organized town hall held with or without the invited lawmaker.</span></div>
+                  <div style="padding:0; "><span style="color:#ff4741">Town Hall</span><span> - An open forum where lawmakers give legislative updates and answer unfiltered questions from constituents.</span></div>
+                  <div style="padding:0; "><span style="color:#ff4741">Empty Chair Town Hall</span><span> - A constituent-organized town hall held with or without the invited lawmaker.</span></div>
+                  <div style="padding:0; "><span style="color:#ff4741">Office Hours</span><span> - Opportunity to meet and question a lawmaker's staff. Usually held in district offices but sometimes are "mobile office hours."</span></div>
                   <div style="padding:0; "><span style="color:#ff4741">Tele-Town Hall Meeting</span><span> - A town hall conducted by conference call or online.</span></div>
-                  <div style="padding:0; "><span style="color:#ff4741">Campaign Town Hall</span><span> - A town hall organized by a candidate for office - whether an incumbent or challenger. (Town Hall Project includes these events as a public resource--not to endorse a particular candidate or campaign)</span></div>
-                  <div style="padding:0; "><span style="color:#ff4741">Other</span><span> - Other opportunities to engage with members of Congress or their staff. Please read details carefully—events in this category can vary.</span></div>
+                  <div style="padding:0; "><span style="color:#ff4741">Campaign Town Hall</span><span> - A town hall organized by a candidate for office - whether an incumbent or challenger. (Town Hall Project includes these events as a public resource--not to endorse a particular candidate or campaign).</span></div>
+                  <div style="padding:0; "><span style="color:#ff4741">Ticketed Event</span><span> - Paid events. Typically fundraisers. (Town Hall Project occasionally includes these events as a public resource--not to endorse a particular candidate or campaign).</span></div>
               </small>`;
 
 constants.QUICK_NOTES = `<p>Quick notes:</p>
@@ -41,10 +42,10 @@ constants.QUICK_NOTES = `<p>Quick notes:</p>
     </ul>
   <p>Thank you for your support. <strong>Show up. Speak out.</strong></p>
 
-  <p>Nathan</p>
+  <p>Zoë</p>
   <section style="line-height: 16px; margin-bottom:25px;">
-  Nathan Williams<br>
-  Managing Director<br>
+  Zoë Tapert<br>
+  Organizing Director<br>
   Town Hall Project<br>
   townhallproject.com<br>
   </section>
