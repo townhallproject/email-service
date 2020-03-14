@@ -58,7 +58,7 @@ class TownHall{
       }
       // if Wednesday
       if ((today === constants.BIG_DAY) && (townhallDay.isBetween(dateToday.add(5, 'hours'), nextWeeklyEmail, '(]'))) {
-        console.log('in next week')
+        console.log('in next week');
         if (include) {
           TownHall.prints.isThursday.push(`<li>${townhall.dateString}}</li>`);
         }
@@ -75,7 +75,7 @@ class TownHall{
       return false;
     }
     switch (townhall.meetingType) {
-    case 'Town Hall':
+    case 'Tele-Town Hall': // changed from Town Hall because of covid-19
       include = true;
       break;
     case 'Empty Chair Town Hall':
