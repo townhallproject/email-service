@@ -32,7 +32,7 @@ describe('getStateEvents', () => {
       'lat': 45.5987319,
       'link': 'https://content.govdelivery.com/accounts/ORLEG/bulletins/23a7f0e',
       'lng': -122.9960855,
-      'meetingType': 'Town Hall',
+      'meetingType': 'Tele-Town Hall',
       'party': 'Democratic',
       'state': 'OR',
       'stateName': 'Oregon',
