@@ -48,12 +48,17 @@ class User {
   constructor(opts) {
     this.firstname = opts.given_name ? opts.given_name.trim().toProperCase(): false;
     this.lastname = opts.family_name ? opts.family_name.trim().toProperCase(): false;
-
-    this.zip =
-      opts.postal_addresses[0].postal_code ? opts.postal_addresses[0].postal_code.toString(): false;
-    this.state = opts.postal_addresses[0].region || false;
-    this.lat = opts.postal_addresses[0].location.latitude || false;
-    this.lng = opts.postal_addresses[0].location.longitude || false;
+    this.zip = false;
+    this.state = false;
+    this.lat = false;
+    this.lng = false;
+    if (opts.postal_addresses && opts.postal_addresses[0]) {
+      this.zip =
+        opts.postal_addresses[0].postal_code ? opts.postal_addresses[0].postal_code.toString(): false;
+      this.state = opts.postal_addresses[0].region || false;
+      this.lat = opts.postal_addresses[0].location.latitude || false;
+      this.lng = opts.postal_addresses[0].location.longitude || false;
+    }
     this.created_date = opts.created_date;
     this.include = true;
     if (
@@ -77,7 +82,7 @@ class User {
         districts,
       } = opts.custom_fields;
       this.districts = User.checkUserCustomDistrictField(districts, this.primaryEmail);
-      this.state = this.districts[0] ? this.districts[0].split('-')[0] : this.state;
+      this.state = this.districts && this.districts[0] ? this.districts[0].split('-')[0] : this.state;
     } else {
       this.districts = [];
     }
@@ -140,7 +145,7 @@ class User {
     let state;
     if (user.state) {
       state = user.state;
-    } else if (user.districts[0]) {
+    } else if (user.districts && user.districts[0]) {
       state = user.districts[0].split('-')[0];
     }
     state = user.state;
