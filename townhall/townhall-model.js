@@ -111,7 +111,7 @@ class TownHall{
       date = this.dateString;
     }
     if (this.meetingType === 'Tele-Town Hall') {
-      location = this.phoneNumber;
+      location = `Connect: ${this.phoneNumber || this.link}`;
       time = this.Time;
     } else if (this.timeZone) {
       location = this.Location;
