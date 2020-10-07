@@ -80,10 +80,10 @@ class TownHall{
       include = true;
       break;
     case 'Empty Chair Town Hall':
-      include = true;
+      include = false; // changed from true because of covid-19
       break;
     case 'Campaign Town Hall':
-      include = false;
+      include = false; // changed from true because of covid-19
       break;
     default:
       if (townhall.iconFlag === 'mfol'){
