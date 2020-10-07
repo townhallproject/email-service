@@ -83,7 +83,7 @@ class TownHall{
       include = true;
       break;
     case 'Campaign Town Hall':
-      include = true;
+      include = false;
       break;
     default:
       if (townhall.iconFlag === 'mfol'){
