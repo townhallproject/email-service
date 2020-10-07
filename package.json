@@ -16,14 +16,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/townhallproject/townhall-SMS-alerts.git"
+    "url": "git+https://github.com/townhallproject/email-service.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/townhallproject/townhall-SMS-alerts/issues"
+    "url": "https://github.com/townhallproject/email-service/issues"
   },
-  "homepage": "https://github.com/townhallproject/townhall-SMS-alerts#readme",
+  "homepage": "https://github.com/townhallproject/email-service#readme",
   "dependencies": {
     "crypto": "^1.0.1",
     "dotenv": "^4.0.0",
