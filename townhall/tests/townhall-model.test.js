@@ -72,7 +72,7 @@ describe('emailText', () => {
 <li>TownHallatMultnomahArtsCenter</li>
 <li>Sat,Apr132019</li>
 <li>1:30PM</li>
-
+<li>Connect:https://twitter.com/SenBurdick/status/1113467604172103681</li>
 <li>7688SWCapitolHwy,Portland,OR97219</li>
 <li><ahref="https://townhallproject.com/oregon?eventId=-Lc6wZWNnX6wBc5FYcJV&state=OR">Linkontownhallprojectsite</a></br>
 <p></p>
