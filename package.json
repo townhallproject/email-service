@@ -31,7 +31,7 @@
     "firebase-admin": "^5.5.0",
     "geo-distance": "^0.1.2",
     "mailgun-js": "^0.22.0",
-    "moment": "^2.21.0",
+    "moment": "^2.29.4",
     "superagent": "^3.8.2"
   },
   "devDependencies": {
